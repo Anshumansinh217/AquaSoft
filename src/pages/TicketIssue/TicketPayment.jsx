@@ -17,7 +17,7 @@ const TicketPayment = () => {
   const [discountByPercent, setDiscountByPercent] = useState(0);
   const [discountByAmount, setDiscountByAmount] = useState(0);
 
-  const baseAmount = formData?.basePrice || 0;
+  // const baseAmount = formData?.basePrice || 0;
   const totalAmount = formData?.totalAmount || 0;
   const ticketType = formData?.ticketType || "Unknown";
   const adultCount = formData?.adults || 0;
