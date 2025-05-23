@@ -41,7 +41,7 @@ const TicketForm = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 md:p-8 space-y-8 bg-gradient-to-br from-gray-50 to-purple-50 min-h-screen">
+    <div className=" mx-auto p-6 md:p-8 space-y-8 bg-gradient-to-br from-gray-50 to-purple-50 min-h-screen">
       <div className="space-y-8">
         {/* Header Section */}
         <div className="text-center space-y-2">
