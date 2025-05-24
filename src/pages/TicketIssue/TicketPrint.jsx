@@ -16,12 +16,12 @@ const TicketPrint = () => {
 
   const handlePrint = () => {
     window.print();
-    navigate("/ticket-issue");
+    navigate("/ticket-form");
   };
 
   const handleDownloadPDF = () => {
     alert("Download PDF clicked");
-    navigate("/ticket-issue");
+    navigate("/ticket-form");
   };
 
   return (

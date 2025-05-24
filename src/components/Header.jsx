@@ -8,11 +8,11 @@ const Header = () => {
         <nav className="flex justify-between items-center h-16">
           {/* Logo with water-inspired accent */}
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_2px_8px_-1px_rgba(0,0,0,0.05)] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-900 shadow-[0_2px_8px_-1px_rgba(0,0,0,0.05)] flex items-center justify-center">
               <span className="text-white text-lg">🌊</span>
             </div>
             <h1 className="text-xl font-semibold text-gray-800 tracking-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Aqua</span>Soft
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-800">Aqua</span>Soft
             </h1>
           </div>
 

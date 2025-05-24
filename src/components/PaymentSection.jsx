@@ -3,25 +3,69 @@ const PaymentSection = ({ paymentMethod, referenceNo, remark, onMethodChange, on
     <h3 className="text-xl font-bold text-purple-900 mb-2">Payment Details</h3>
     
     <div className="space-y-4">
-      {/* Payment Method */}
+      {/* Payment Method - Radio Buttons */}
       <div className="group">
-        <label className="block text-sm font-medium text-purple-800 mb-1">Payment Method</label>
-        <div className="relative">
-          <select 
-            value={paymentMethod} 
-            onChange={onMethodChange}
-            className="w-full pl-4 pr-10 py-3 bg-white/80 border border-purple-200 rounded-xl text-purple-900 font-medium focus:outline-none focus:ring-2 focus:ring-purple-300/50 focus:border-purple-300 transition-all duration-300 shadow-sm appearance-none"
-          >
-            <option value="cash">Cash</option>
-            <option value="card">Card</option>
-            <option value="online">Online</option>
-          </select>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-purple-500">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </div>
-          <div className="absolute inset-0 rounded-xl pointer-events-none border-2 border-transparent group-hover:border-purple-300/30 transition-all duration-300"></div>
+        <label className="block text-sm font-medium text-purple-800 mb-3">Payment Method</label>
+        <div className="grid grid-cols-3 gap-3">
+          {/* Cash Option */}
+          <label className="relative">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="cash"
+              checked={paymentMethod === "cash"}
+              onChange={onMethodChange}
+              className="absolute opacity-0 w-0 h-0"
+            />
+            <div className={`flex flex-col items-center justify-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-300 ${paymentMethod === "cash" ? 'border-purple-500 bg-purple-50 shadow-purple-100 shadow-sm' : 'border-purple-200 hover:border-purple-300'}`}>
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mb-2 ${paymentMethod === "cash" ? 'border-purple-600 bg-purple-600' : 'border-purple-300'}`}>
+                {paymentMethod === "cash" && (
+                  <div className="w-2 h-2 rounded-full bg-white"></div>
+                )}
+              </div>
+              <span className="text-sm font-medium text-purple-900">Cash</span>
+            </div>
+          </label>
+
+          {/* Card Option */}
+          <label className="relative">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="card"
+              checked={paymentMethod === "card"}
+              onChange={onMethodChange}
+              className="absolute opacity-0 w-0 h-0"
+            />
+            <div className={`flex flex-col items-center justify-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-300 ${paymentMethod === "card" ? 'border-purple-500 bg-purple-50 shadow-purple-100 shadow-sm' : 'border-purple-200 hover:border-purple-300'}`}>
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mb-2 ${paymentMethod === "card" ? 'border-purple-600 bg-purple-600' : 'border-purple-300'}`}>
+                {paymentMethod === "card" && (
+                  <div className="w-2 h-2 rounded-full bg-white"></div>
+                )}
+              </div>
+              <span className="text-sm font-medium text-purple-900">Card</span>
+            </div>
+          </label>
+
+          {/* Online Option */}
+          <label className="relative">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="online"
+              checked={paymentMethod === "online"}
+              onChange={onMethodChange}
+              className="absolute opacity-0 w-0 h-0"
+            />
+            <div className={`flex flex-col items-center justify-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-300 ${paymentMethod === "online" ? 'border-purple-500 bg-purple-50 shadow-purple-100 shadow-sm' : 'border-purple-200 hover:border-purple-300'}`}>
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mb-2 ${paymentMethod === "online" ? 'border-purple-600 bg-purple-600' : 'border-purple-300'}`}>
+                {paymentMethod === "online" && (
+                  <div className="w-2 h-2 rounded-full bg-white"></div>
+                )}
+              </div>
+              <span className="text-sm font-medium text-purple-900">Online</span>
+            </div>
+          </label>
         </div>
       </div>
 
