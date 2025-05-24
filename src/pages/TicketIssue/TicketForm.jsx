@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TicketTypeCard from "../../components/TicketTypeCard";
 import TicketCounter from "../../components/TicketCounter";
 import BookingSummary from "../../components/BookingSummary";
+import { FaArrowLeft } from "react-icons/fa";
 
 const ticketTypes = [
   { id: 1, name: "Platinum", price: 500 },
@@ -11,7 +12,7 @@ const ticketTypes = [
   { id: 4, name: "Park Visit", price: 300 },
   { id: 5, name: "Tuesday & Thursday", price: 250 },
   { id: 6, name: "Golden with Lunch", price: 600 },
-  { id: 7, name: "Water Park Entry", price: 450 },
+  // { id: 7, name: "Water Park Entry", price: 450 },
 ];
 
 const TicketForm = () => {
@@ -44,67 +45,82 @@ const TicketForm = () => {
     <div className=" mx-auto p-6 md:p-8 space-y-8 bg-gradient-to-br from-gray-50 to-purple-50 min-h-screen">
       <div className="space-y-8">
         {/* Header Section */}
+       
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-purple-900">Select Your Tickets</h1>
-          <p className="text-purple-700/80">Choose from our premium ticket options</p>
+           <button
+                    onClick={() => navigate("/ticket-issue")}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200/80 hover:border-blue-400/50 text-gray-700 hover:text-blue-600 group transform hover:-translate-x-1"
+                  >
+                    <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />
+                    <span className="font-medium">Back</span>
+                  </button>
+
+
+          {/* <h1 className="text-3xl font-bold text-purple-900">Select Your Tickets</h1>
+          <p className="text-purple-700/80">Choose from our premium ticket options</p> */}
         </div>
 
-        {/* Ticket Selection Section */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-purple-800 border-b border-purple-200 pb-2">
-            Ticket Types
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {ticketTypes.map(type => (
-              <TicketTypeCard
-                key={type.id}
-                type={type}
-                selectedType={selectedType}
-                setSelectedType={setSelectedType}
-              />
-            ))}
-          </div>
-        </div>
 
-        {/* Ticket Counters Section */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-purple-800 border-b border-purple-200 pb-2">
-            Ticket Quantities
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-5 rounded-xl border border-purple-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-              <TicketCounter 
-                label="Adults" 
-                count={adults} 
-                setCount={setAdults} 
-              />
-            </div>
-            <div className="bg-white p-5 rounded-xl border border-purple-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-              <TicketCounter 
-                label="Children" 
-                count={children} 
-                setCount={setChildren} 
-              />
-            </div>
-          </div>
-        </div>
+   <div className="fullcontent w-full max-w-[1440px] mx-auto bg-gradient-to-br from-gray-50 to-purple-50 min-h-screen 
+  flex flex-col md:flex-row gap-6 overflow-x-auto">
 
-        {/* Booking Summary Section */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-purple-800 border-b border-purple-200 pb-2">
-            Order Summary
-          </h2>
-          <div className="bg-white p-6 rounded-xl border border-purple-100 shadow-sm">
-            <BookingSummary
-              selectedTicket={selectedTicket}
-              adults={adults}
-              children={children}
-            />
-          </div>
-        </div>
 
-        {/* Next Button */}
-        <div className="flex justify-end pt-4">
+
+  {/* Left: Ticket Selection + Quantity */}
+  <div className="section1 flex-1 min-w-[480px] max-w-full overflow-y-auto pr-2 space-y-6">
+
+    
+    {/* Ticket Selection Section */}
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold text-purple-800 border-b border-purple-200 pb-2">
+        Ticket Types
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {ticketTypes.map((type) => (
+          <TicketTypeCard
+            key={type.id}
+            type={type}
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* Ticket Counters Section */}
+    <div className="space-y-4">
+      {/* <h2 className="text-xl font-semibold text-purple-800 border-b border-purple-200 pb-2">
+        Ticket Quantities
+      </h2> */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white p-5 rounded-xl border border-purple-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+          <TicketCounter label="Adults" count={adults} setCount={setAdults} />
+        </div>
+        <div className="bg-white p-5 rounded-xl border border-purple-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+          <TicketCounter label="Children" count={children} setCount={setChildren} />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  {/* Right: Booking Summary */}
+  <div className="section2 w-[320px] flex-shrink-0 min-w-[280px] overflow-y-auto space-y-4">
+
+
+
+    <h2 className="text-xl font-semibold text-purple-800 border-b border-purple-200 pb-2">
+      Order Summary
+    </h2>
+    <div className="bg-white p-6 rounded-xl border border-purple-100 shadow-sm">
+      <BookingSummary
+        selectedTicket={selectedTicket}
+        adults={adults}
+        children={children}
+      />
+    </div>
+     {/* Next Button */}
+        <div className="flex justify-center pt-4">
           <button
             disabled={!selectedTicket || totalCount === 0}
             onClick={handleNext}
@@ -119,6 +135,15 @@ const TicketForm = () => {
             <span className="absolute top-0 right-0 w-8 h-8 -mr-4 -mt-4 bg-white/30 rounded-full animate-ping"></span>
           </button>
         </div>
+  </div>  
+
+
+  
+  
+</div>
+
+
+       
       </div>
     </div>
   );

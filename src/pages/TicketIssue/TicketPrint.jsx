@@ -16,7 +16,7 @@ const TicketPrint = () => {
 
   const handlePrint = () => {
     window.print();
-    navigate("/ticket-issue"); // redirect after printing
+    navigate("/ticket-issue");
   };
 
   const handleDownloadPDF = () => {
@@ -25,59 +25,78 @@ const TicketPrint = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 print:bg-white">
-      <div className="receipt w-full max-w-xs bg-white p-6 shadow-md border border-gray-300 print:border-none print:shadow-none">
-        <h2 className="text-center font-bold text-lg mb-2">🌊 Water Park</h2>
-        <p className="text-center text-sm mb-4">Receipt / Ticket</p>
+    <>
+      <style>{`
+        @media print {
+          body * {
+            visibility: hidden;
+          }
+          .receipt, .receipt * {
+            visibility: visible;
+          }
+          .receipt {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+          }
+        }
+      `}</style>
 
-        <div className="text-sm font-mono space-y-1 border-t border-dashed pt-2">
-          <div className="flex justify-between">
-            <span>Ticket No:</span>
-            <span>{ticketData.ticketNo}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Date:</span>
-            <span>{ticketData.date}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Time:</span>
-            <span>{ticketData.time}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Ticket Type:</span>
-            <span>{ticketData.ticketType}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Adults:</span>
-            <span>{ticketData.adult}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Children:</span>
-            <span>{ticketData.children}</span>
-          </div>
-          <div className="border-t border-dashed my-2"></div>
-          <div className="flex justify-between font-semibold">
-            <span>Total:</span>
-            <span>₹{ticketData.amount.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Payment Mode:</span>
-            <span>{ticketData.paymentBy}</span>
-          </div>
-        </div>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 print:bg-white">
+        <div className="receipt w-full max-w-xs bg-white p-6 shadow-md border border-gray-300 print:border-none print:shadow-none">
+          <h2 className="text-center font-bold text-lg mb-2">🌊 Water Park</h2>
+          <p className="text-center text-sm mb-4">Receipt / Ticket</p>
 
-        <p className="text-center text-xs mt-4 border-t border-dashed pt-2">Thank you for your visit!</p>
+          <div className="text-sm font-mono space-y-1 border-t border-dashed pt-2">
+            <div className="flex justify-between">
+              <span>Ticket No:</span>
+              <span>{ticketData.ticketNo}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Date:</span>
+              <span>{ticketData.date}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Time:</span>
+              <span>{ticketData.time}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Ticket Type:</span>
+              <span>{ticketData.ticketType}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Adults:</span>
+              <span>{ticketData.adult}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Children:</span>
+              <span>{ticketData.children}</span>
+            </div>
+            <div className="border-t border-dashed my-2"></div>
+            <div className="flex justify-between font-semibold">
+              <span>Total:</span>
+              <span>₹{ticketData.amount.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Payment Mode:</span>
+              <span>{ticketData.paymentBy}</span>
+            </div>
+          </div>
 
-        <div className="flex justify-center gap-4 mt-6 print:hidden">
-          <button onClick={handlePrint} className="bg-blue-600 text-white px-4 py-2 rounded text-sm">
-            Print
-          </button>
-          <button onClick={handleDownloadPDF} className="bg-green-600 text-white px-4 py-2 rounded text-sm">
-            Download PDF
-          </button>
+          <p className="text-center text-xs mt-4 border-t border-dashed pt-2">Thank you for your visit!</p>
+
+          <div className="flex justify-center gap-4 mt-6 print:hidden">
+            <button onClick={handlePrint} className="bg-blue-600 text-white px-4 py-2 rounded text-sm">
+              Print
+            </button>
+            <button onClick={handleDownloadPDF} className="bg-green-600 text-white px-4 py-2 rounded text-sm">
+              Download PDF
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
