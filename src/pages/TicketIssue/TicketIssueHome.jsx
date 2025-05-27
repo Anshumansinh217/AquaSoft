@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaPlus, FaTicketAlt } from "react-icons/fa";
 import TicketTable from "../../components/TicketTable";
 
+
 const TicketIssueHome = () => {
   const navigate = useNavigate();
   const [tickets, setTickets] = useState([]);
@@ -46,12 +47,12 @@ const TicketIssueHome = () => {
               <FaTicketAlt className="text-white text-xl" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              VIP Ticket Portal
+               Ticket Portal
             </h1>
           </div>
 
           <button
-            onClick={() => navigate("/ticket-form")}
+            onClick={() =>navigate("/ticket-form#ticket-types")}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:from-blue-500 hover:to-purple-500 hover:scale-[1.02] active:scale-95 group"
           >
             <FaPlus className="transition-transform duration-300 group-hover:rotate-90" />
@@ -64,12 +65,13 @@ const TicketIssueHome = () => {
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
               <div className="animate-pulse flex flex-col items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 animate-spin-slow"></div>
-                <div className="h-4 w-48 rounded-full bg-gradient-to-r from-gray-200 to-gray-300"></div>
+                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-200 to-purple-100 animate-spin-slow"></div>
+                <div className="h-4 w-48 rounded-full bg-gradient-to-r from-gray-400 to-gray-300"></div>
               </div>
             </div>
           ) : (
             <TicketTable tickets={tickets} />
+
           )}
         </div>
       </div>

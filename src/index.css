@@ -1,3 +1,19 @@
+/* ✅ Inside index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "ag-grid-community/styles/ag-grid.css";
+@import "ag-grid-community/styles/ag-theme-alpine.css";
+
+
+/* Remove spinner for Chrome, Safari, Edge */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove spinner for Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

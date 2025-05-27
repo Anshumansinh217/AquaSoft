@@ -103,7 +103,7 @@ const PaymentSection = ({ paymentMethod, referenceNo, remark, onMethodChange, on
 
     {/* Decorative elements */}
     <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-2xl bg-gradient-to-br from-purple-400/10 to-blue-400/10"></div>
-    <div className="absolute bottom-0 left-0 w-16 h-16 rounded-tr-2xl bg-gradient-to-br from-purple-400/10 to-blue-400/10"></div>
+    {/* <div className="absolute bottom-0 left-0 w-16 h-16 rounded-tr-2xl bg-gradient-to-br from-purple-400/10 to-blue-400/10"></div> */}
   </div>
 );
 

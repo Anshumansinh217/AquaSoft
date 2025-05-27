@@ -5,9 +5,14 @@ import TicketIssueHome from "./pages/TicketIssue/TicketIssueHome";
 import TicketForm from "./pages/TicketIssue/TicketForm";
 import TicketPayment from "./pages/TicketIssue/TicketPayment";
 import TicketPrint from "./pages/TicketIssue/TicketPrint";
+import Restaurant from "./pages/restaurant/RestaurantPage";
+import PrintToken from "./pages/restaurant/PrintToken";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEdit, faPrint, faTrash, faEye, faRupeeSign } from '@fortawesome/free-solid-svg-icons';
+
+
+
 
 library.add(faEdit, faPrint, faTrash, faEye, faRupeeSign);
 
@@ -25,7 +30,8 @@ function App() {
           <Route path="/ticket-print" element={<TicketPrint />} />
 
           {/* Restaurant route placeholder */}
-          <Route path="/restaurant" element={<div>Restaurant Module (Coming Soon)</div>} />
+          <Route path="/Restaurant" element={<Restaurant/>} />
+          <Route path="/print-token" element={<PrintToken />} />
         </Routes>
       </div>
     </Router>
