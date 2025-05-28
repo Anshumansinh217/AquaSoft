@@ -71,15 +71,16 @@ const RestaurantPage = () => {
           </div>
 
           {/* Right: Cart */}
-          <div className="w-full lg:w-96">
-            <div className="sticky top-6 bg-white rounded-2xl shadow-sm p-6 border border-purple-100">
-              <Cart
-                items={cartItems}
-                onUpdate={updateCartItem}
-                onRemove={removeFromCart}
-              />
-            </div>
-          </div>
+          <div className="w-full lg:w-[500px]">
+  <div className="sticky top-6 bg-white rounded-2xl shadow-sm p-6 border border-purple-100">
+    <Cart
+      items={cartItems}
+      onUpdate={updateCartItem}
+      onRemove={removeFromCart}
+    />
+  </div>
+</div>
+
         </div>
       </div>
     </div>

@@ -3,7 +3,10 @@ import ProductCard from "./ProductCard";
 
 const ProductList = ({ products, onAdd }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 p-4 bg-purple-50 rounded-xl shadow-inner">
+    <div
+      className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-0 p-0 overflow-y-auto"
+      style={{ maxHeight: "75vh" }} // or any height you want, like 60vh or 600px
+    >
       {products.map((product) => (
         <ProductCard key={product.id} product={product} onAdd={onAdd} />
       ))}

@@ -1,40 +1,68 @@
 import React from "react";
-import { X } from "lucide-react";
+import { X, Minus, Plus } from "lucide-react";
 
 const CartItem = ({ item, onUpdate, onRemove }) => {
-//   const handleChange = (value) => {
-//     const parsedValue = parseInt(value);
-//     onUpdate(item.id, "quantity", parsedValue);
-//   };
+  const handleDecrease = () => {
+    if (item.quantity > 1) {
+      onUpdate(item.id, "quantity", item.quantity - 1);
+    } else {
+      onRemove(item.id);
+    }
+  };
+
+  const handleIncrease = () => {
+    onUpdate(item.id, "quantity", item.quantity + 1);
+  };
 
   const totalPrice = item.price * item.quantity;
 
   return (
-  <div className="bg-white/90 backdrop-blur-sm border border-purple-200 rounded-xl p-4 shadow-md hover:shadow-lg transition duration-300 space-y-3">
-  {/* Header Row */}
-  <div className="flex justify-between items-center">
-    <h3 className="font-semibold text-purple-900 text-lg">{item.name}</h3>
-    <button
-      onClick={() => onRemove(item.id)}
-      className="text-red-500 hover:text-red-600 transition-colors"
-      aria-label="Remove item"
-    >
-      <X size={18} />
-    </button>
-  </div>
+    <>
+    
+    <div className="border-t border-gray-200 first:border-t-0">
+      
+      <div className="grid grid-cols-[1fr_30px_30px_30px_60px_70px_30px] items-center gap-2 text-sm text-purple-800 py-2">
+        {/* ITEM */}
+        <div className="font-semibold text-purple-900">{item.name}</div>
 
-     
-      <div className="flex justify-between items-center gap-4">
-        
-        
+        {/* PLUS */}
+        <button
+          onClick={handleIncrease}
+          className="text-green-700 hover:text-green-400 transition-colors"
+          title="Increase quantity"
+        >
+          <Plus size={16} />
+        </button>
 
-               <div className="text-right">
-          <p className="text-sm text-purple-700 font-medium">
-            ₹{totalPrice.toFixed(2)}
-          </p>
-        </div>
+        {/* QTY */}
+        <div className="text-center">{item.quantity}</div>
+
+        {/* MINUS */}
+        <button
+          onClick={handleDecrease}
+          className="text-red-900 hover:text-red-500 transition-colors"
+          title="Decrease quantity"
+        >
+          <Minus size={16} />
+        </button>
+
+        {/* RATE */}
+        <div className="text-right">₹{item.price.toFixed(2)}</div>
+
+        {/* TOTAL */}
+        <div className="text-right">₹{totalPrice.toFixed(2)}</div>
+
+        {/* REMOVE */}
+        <button
+          onClick={() => onRemove(item.id)}
+          className="text-red-500 hover:text-red-600 transition-colors"
+          title="Remove item"
+        >
+          <X size={16} />
+        </button>
       </div>
     </div>
+    </>
   );
 };
 
