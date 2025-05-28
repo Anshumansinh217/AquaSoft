@@ -37,31 +37,37 @@ const Cart = ({ items, onUpdate, onRemove }) => {
         <p className="text-purple-800/70 italic">No items added yet.</p>
       ) : (
         <>
-          <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
-             {/* Header Row */}
-  <div className="border-b border-gray-300 pb-1 mb-2 text-sm font-semibold text-purple-900 grid grid-cols-[1fr_30px_30px_30px_60px_70px_30px] gap-2">
+   <div className="flex flex-col h-[300px]"> {/* Set a fixed height container */}
+  {/* Fixed Header */}
+  <div className="border-b border-gray-300 pb-1 mb-1 text-sm font-semibold text-purple-900 grid grid-cols-[1fr_30px_30px_30px_60px_70px_30px] gap-2">
     <div>Item</div>
     <div className="col-span-3 text-center">Qty</div>
     <div className="text-right">Rate</div>
     <div className="text-right">Total</div>
     <div></div>
   </div>
-            {items.map((item) => (
-              <CartItem
-                key={item.id}
-                item={item}
-                onUpdate={onUpdate}
-                onRemove={onRemove}
-              />
-            ))}
-          </div>
-           <div className="border-b border-gray-300 pb-1 mb-2 text-sm font-semibold text-purple-900 grid grid-cols-[1fr_30px_30px_30px_60px_70px_30px] gap-2">
+
+  {/* Scrollable Items */}
+  <div className="flex-1 overflow-y-auto">
+    {items.map((item) => (
+      <CartItem
+        key={item.id}
+        item={item}
+        onUpdate={onUpdate}
+        onRemove={onRemove}
+      />
+    ))}
+  </div>
+
+  {/* Fixed Footer */}
+  <div className="border-t border-gray-300 pt-1 mt-1 text-sm font-semibold text-purple-900 grid grid-cols-[1fr_30px_30px_30px_60px_70px_30px] gap-2">
     <div>Total</div>
     <div className="col-span-3 text-center">{items.reduce((sum, item) => sum + item.quantity, 0)}</div>
     <div className="text-right"></div>
     <div className="text-right">₹{subtotal.toFixed(2)}</div>
     <div></div>
   </div>
+</div>
 
           {/* Divider */}
           <div className="border-t border-purple-200 pt-3 mt-2"></div>

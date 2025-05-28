@@ -71,14 +71,14 @@ const RestaurantPage = () => {
           </div>
 
           {/* Right: Cart */}
-          <div className="w-full lg:w-[500px]">
-  <div className="sticky top-6 bg-white rounded-2xl shadow-sm p-6 border border-purple-100">
+          <div className="w-full lg:w-[520px]">
+ 
     <Cart
       items={cartItems}
       onUpdate={updateCartItem}
       onRemove={removeFromCart}
     />
-  </div>
+  
 </div>
 
         </div>
@@ -88,3 +88,5 @@ const RestaurantPage = () => {
 };
 
 export default RestaurantPage;
+
+//  <div className="sticky top-6 bg-white rounded-2xl shadow-sm p-6 border border-purple-100"></div>

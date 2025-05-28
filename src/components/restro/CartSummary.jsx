@@ -25,11 +25,11 @@ const CartSummary = ({ items }) => {
       {/* <div className="flex justify-between text-purple-800">
         <span className="font-medium">Subtotal:</span>
         <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
-      </div>
+      </div> */}
       <div className="flex justify-between text-purple-800">
         <span className="font-medium">GST (18%):</span>
         <span className="font-semibold">₹{gst.toFixed(2)}</span>
-      </div> */}
+      </div>
 
       {/* Divider */}
       {/* <div className="border-t border-purple-200 pt-2 mt-1"></div> */}
