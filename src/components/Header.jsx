@@ -9,24 +9,33 @@ const Header = () => {
           {/* Logo with water-inspired accent */}
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-900 shadow-[0_2px_8px_-1px_rgba(0,0,0,0.05)] flex items-center justify-center">
-              <span className="text-white text-lg">🌊</span>
-            </div>
+  <img
+    src="../img/aquasoft__1_-removebg-preview-removebg-preview.png"
+    alt="Icon"
+    className="w-7 h-7 object-contain"
+  />
+</div>
+
+
             <h1 className="text-xl font-semibold text-gray-800 tracking-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-800">Aqua</span>Soft
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-800">
+                Aqua
+              </span>
+              Soft
             </h1>
           </div>
 
           {/* Navigation with micro-interactions */}
           <ul className="flex space-x-6">
-            <NavItem 
-              to="/ticket-issue" 
-              icon="🎟️" 
+            <NavItem
+              to="/ticket-issue"
+              icon="🎟️"
               label="Tickets"
               color="from-blue-400 to-cyan-500"
             />
-            <NavItem 
-              to="/restaurant" 
-              icon="🍽️" 
+            <NavItem
+              to="/restaurant"
+              icon="🍽️"
               label="Dining"
               color="from-amber-400 to-orange-400"
             />
@@ -52,11 +61,13 @@ const NavItem = ({ to, icon, label, color }) => (
         {icon}
       </span>
       <span>{label}</span>
-      <span className={`
+      <span
+        className={`
         absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 
         bg-gradient-to-r ${color} rounded-full
         transition-all duration-300 group-hover:w-4/5
-      `}></span>
+      `}
+      ></span>
     </Link>
   </li>
 );

@@ -15,6 +15,7 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
   };
 
   const totalPrice = item.price * item.quantity;
+  
 
   return (
     <>

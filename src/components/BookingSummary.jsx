@@ -1,63 +1,82 @@
-const BookingSummary = ({ selectedTicket, adults, children }) => {
-  if (!selectedTicket) {
+const BookingSummary = ({ ticketCounts, ticketTypes }) => {
+  const summaryItems = Object.entries(ticketCounts)
+    .map(([ticketName, counts]) => {
+      const ticketType = ticketTypes.find((t) => t.name === ticketName);
+      if (!ticketType) return null;
+
+      const adultTotal = ticketType.price.adult * counts.adults;
+      const childTotal = ticketType.price.child * counts.children;
+      const basePrice = adultTotal + childTotal;
+      const gst = basePrice * 0.18;
+      const totalAmount = basePrice + gst;
+
+      return {
+        ticketName,
+        adults: counts.adults,
+        children: counts.children,
+        adultPrice: ticketType.price.adult,  // Fixed from adultPrice: ticketType.price.adult
+        childPrice: ticketType.price.child,
+        basePrice,
+        gst,
+        totalAmount,
+      };
+    })
+    .filter(Boolean);
+
+  if (summaryItems.length === 0) {
     return (
       <p className="text-gray-500 italic font-medium p-4 sm:p-5 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 shadow-sm text-sm sm:text-base">
-        Select a ticket type to see details
+        Select at least one ticket to see the summary.
       </p>
     );
   }
 
-  const totalCount = adults + children;
-  const basePrice = selectedTicket.price * totalCount;
-  const gst = basePrice * 0.18;
-  const totalAmount = basePrice + gst;
+  const grandTotal = summaryItems.reduce((acc, item) => acc + item.totalAmount, 0);
 
   return (
-    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border-2 border-purple-100 shadow-lg space-y-3 group text-sm sm:text-base w-full max-w-md mx-auto">
+    <div className="p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border-2 border-purple-100 shadow-lg space-y-4 group text-sm sm:text-base w-full max-w-xl mx-auto">
       <h3 className="text-base sm:text-lg font-bold text-purple-900 mb-2">Booking Summary</h3>
 
-      <div className="space-y-2 text-purple-800">
-        <div className="flex justify-between">
-          <span className="font-medium">Ticket:</span>
-          <span className="font-semibold">{selectedTicket.name}</span>
+      {summaryItems.map((item, index) => (
+        <div key={index} className="space-y-3 text-purple-800 border-b border-purple-200 pb-3 last:border-0 last:pb-0">
+          <div className="flex justify-between font-medium">
+            <span>Ticket:</span>
+            <span className="font-semibold">{item.ticketName}</span>
+          </div>
+          
+          {item.adults > 0 && (
+            <div className="flex justify-between">
+              <span>Adults ({item.adults} × ₹{item.adultPrice}):</span>
+              <span>₹{(item.adults * item.adultPrice).toFixed(2)}</span>
+            </div>
+          )}
+          
+          {item.children > 0 && (
+            <div className="flex justify-between">
+              <span>Children ({item.children} × ₹{item.childPrice}):</span>
+              <span>₹{(item.children * item.childPrice).toFixed(2)}</span>
+            </div>
+          )}
+          
+          <div className="flex justify-between">
+            <span>Base Price:</span>
+            <span>₹{item.basePrice.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>GST (18%):</span>
+            <span>₹{item.gst.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between font-semibold text-blue-600">
+            <span>Total:</span>
+            <span>₹{item.totalAmount.toFixed(2)}</span>
+          </div>
         </div>
+      ))}
 
-        <div className="flex justify-between">
-          <span className="font-medium">Adults:</span>
-          <span className="font-semibold">{adults}</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="font-medium">Children:</span>
-          <span className="font-semibold">{children}</span>
-        </div>
-
-        <div className="border-t border-purple-200 pt-2 mt-1"></div>
-
-        <div className="flex justify-between">
-          <span className="font-medium">Base Price:</span>
-          <span className="font-semibold">₹{basePrice.toFixed(2)}</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="font-medium">GST (18%):</span>
-          <span className="font-semibold">₹{gst.toFixed(2)}</span>
-        </div>
-
-        <div className="border-t border-purple-200 pt-2 mt-1"></div>
-
-        <div className="flex justify-between text-base sm:text-lg">
-          <span className="font-bold text-purple-900">Total:</span>
-          <span className="font-bold text-blue-600">₹{totalAmount.toFixed(2)}</span>
-        </div>
+      <div className="flex justify-between text-base sm:text-lg font-bold text-purple-900 border-t border-purple-300 pt-2">
+        <span>Grand Total:</span>
+        <span className="text-blue-700">₹{grandTotal.toFixed(2)}</span>
       </div>
-
-      {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 rounded-bl-2xl bg-gradient-to-br from-purple-400/10 to-blue-400/10 pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-12 h-12 sm:w-16 sm:h-16 rounded-tr-2xl bg-gradient-to-br from-purple-400/10 to-blue-400/10 pointer-events-none"></div>
-
-      {/* Hover/focus effect */}
-      <div className="absolute inset-0 rounded-xl pointer-events-none border-2 border-transparent group-hover:border-purple-300/30 transition-all duration-300"></div>
     </div>
   );
 };

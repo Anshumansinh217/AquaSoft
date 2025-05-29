@@ -42,7 +42,7 @@ const RestaurantPage = () => {
   };
 
   // Calculate total items in cart
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  // const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   // Filter products by selected category
   const filteredProducts = productsData.filter(
@@ -55,12 +55,12 @@ const RestaurantPage = () => {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left: Products */}
           <div className="flex-1 bg-white rounded-2xl shadow-sm p-6 border border-purple-100">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-3xl font-bold text-purple-900">Restaurant Menu</h1>
+            {/* <div className="flex justify-between items-center mb-6"> */}
+              {/* <h1 className="text-3xl font-bold text-purple-900">Restaurant Menu</h1>
               <div className="bg-blue-500 text-white rounded-full px-3 py-1 text-sm font-medium">
                 {totalItems} {totalItems === 1 ? 'Item' : 'Items'} in Cart
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
             <CategoryButtons
               selected={selectedCategory}
               onSelect={setSelectedCategory}
