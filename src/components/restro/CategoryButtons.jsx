@@ -1,13 +1,6 @@
 import React from "react";
 
-const categories = [
-  { id: "starter", label: "Starters" },
-  { id: "main", label: "Main Course" },
-  { id: "dessert", label: "Desserts" },
-  { id: "beverage", label: "Beverages" },
-];
-
-const CategoryButtons = ({ selected, onSelect }) => {
+const CategoryButtons = ({ categories, selected, onSelect }) => {
   return (
     <div className="flex flex-wrap gap-3 mb-6">
       {categories.map((cat) => (
@@ -20,12 +13,8 @@ const CategoryButtons = ({ selected, onSelect }) => {
               : "text-purple-900 bg-purple-100 hover:bg-purple-200 border border-purple-200"
           }`}
         >
-          {/* Base state */}
-          <span className="relative z-10">
-            {cat.label}
-          </span>
-          
-          {/* Selected state gradient layer */}
+          <span className="relative z-10">{cat.label}</span>
+
           {selected === cat.id && (
             <>
               <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 z-0"></span>

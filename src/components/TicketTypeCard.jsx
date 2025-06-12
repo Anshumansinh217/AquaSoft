@@ -17,11 +17,9 @@ const TicketTypeCard = ({ type, selectedTypes, setSelectedTypes }) => {
     Diwali: "bg-gradient-to-br from-orange-100 via-yellow-100 to-orange-100",
     Express: "bg-gradient-to-br from-green-100 via-lime-100 to-green-100",
     "Park Visit": "bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-100",
-    "Tuesday & Thursday":
-      "bg-gradient-to-br from-yellow-100 via-amber-100 to-yellow-100",
+    "Tuesday & Thursday": "bg-gradient-to-br from-yellow-100 via-amber-100 to-yellow-100",
     "Golden with Lunch": "bg-gradient-to-br from-red-100 via-rose-100 to-red-100",
-    "Water Park Entry":
-      "bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-100",
+    "Water Park Entry": "bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-100",
   };
 
   const bgColor = isSelected
@@ -44,28 +42,15 @@ const TicketTypeCard = ({ type, selectedTypes, setSelectedTypes }) => {
         </div>
       )}
 
-      <div className="flex flex-col gap-2">
+      {/* Icon + Price Row */}
+      <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
         <div
-          className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg mb-2 sm:mb-3 
-            ${isSelected
-              ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
-              : "bg-gray-100 text-gray-600"
-            }`}
+          className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg 
+            ${isSelected ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white" : "bg-gray-100 text-gray-600"}`}
         >
           <FaTicketAlt className="text-lg sm:text-xl" />
         </div>
-
-        <h3
-          className={`text-lg sm:text-xl font-bold leading-snug ${
-            isSelected
-              ? "bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
-              : "text-gray-800"
-          }`}
-        >
-          {type.name}
-        </h3>
-
-        <div className="text-sm sm:text-base">
+        <div className="text-right text-sm sm:text-base">
           <p className={isSelected ? "text-blue-700" : "text-gray-600"}>
             Adult: ₹{type.price.adult}
           </p>
@@ -73,18 +58,28 @@ const TicketTypeCard = ({ type, selectedTypes, setSelectedTypes }) => {
             Child: ₹{type.price.child}
           </p>
         </div>
-
-        {isSelected && (
-          <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-600 rounded-full animate-pulse"></div>
-        )}
       </div>
 
+      {/* Title */}
+      <h3
+        className={`text-lg sm:text-xl font-bold leading-snug ${
+          isSelected
+            ? "bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+            : "text-gray-800"
+        }`}
+      >
+        {type.name}
+      </h3>
+
+      {/* Pulse Indicator */}
+      {isSelected && (
+        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-600 rounded-full animate-pulse"></div>
+      )}
+
+      {/* Overlay on hover */}
       <div
         className={`absolute inset-0 rounded-2xl pointer-events-none transition-all duration-300 
-          ${isSelected
-            ? "bg-gradient-to-br from-blue-200/20 to-purple-200/20"
-            : "hover:bg-gray-100/10"
-          }`}
+          ${isSelected ? "bg-gradient-to-br from-blue-200/20 to-purple-200/20" : "hover:bg-gray-100/10"}`}
       ></div>
     </div>
   );

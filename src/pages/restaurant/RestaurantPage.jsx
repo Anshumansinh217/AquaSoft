@@ -49,9 +49,16 @@ const RestaurantPage = () => {
     (product) => product.category === selectedCategory
   );
 
+  const restaurantCategories = [
+  { id: "starter", label: "Starters" },
+  { id: "main", label: "Main Course" },
+  { id: "dessert", label: "Desserts" },
+  { id: "beverage", label: "Beverages" },
+];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-6">
-      <div className="max-w-7xl mx-auto">
+       <div className=""> {/*max-w-7xl mx-auto */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left: Products */}
           <div className="flex-1 bg-white rounded-2xl shadow-sm p-6 border border-purple-100">
@@ -62,9 +69,10 @@ const RestaurantPage = () => {
               </div> */}
             {/* </div> */}
             <CategoryButtons
-              selected={selectedCategory}
-              onSelect={setSelectedCategory}
-            />
+  categories={restaurantCategories}
+  selected={selectedCategory}
+  onSelect={setSelectedCategory}
+/>
             <div className="mt-6">
               <ProductList products={filteredProducts} onAdd={handleAddToCart} />
             </div>

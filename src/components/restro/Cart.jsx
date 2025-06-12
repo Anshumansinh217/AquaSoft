@@ -2,7 +2,7 @@ import React from "react";
 import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 
-const Cart = ({ items, onUpdate, onRemove }) => {
+const Cart = ({ items, onUpdate, onRemove, source }) => {  // Add source prop
   const customer = {
     name: "Anshumansinh Rathore",
     balance: 850.0,
@@ -84,7 +84,10 @@ const Cart = ({ items, onUpdate, onRemove }) => {
           {/* Divider */}
           <div className="border-t border-purple-200 pt-3 mt-2"></div>
 
-          <CartSummary items={items} />
+          <CartSummary 
+        items={items} 
+        source={source}  // Pass the source prop
+      />
         </>
       )}
     </div>

@@ -1,44 +1,42 @@
-// src/components/Header.jsx
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTicket,
+  faUtensils,
+  faShoppingBag,
+  faTshirt,
+  faMoneyCheckAlt
+} from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   return (
-    <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs">
+    <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-white via-sky-50 to-sky-100 backdrop-blur-lg shadow-md border-b border-gray-200">
       <div className="max-w-8xl mx-auto px-8">
         <nav className="flex justify-between items-center h-16">
-          {/* Logo with water-inspired accent */}
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-900 shadow-[0_2px_8px_-1px_rgba(0,0,0,0.05)] flex items-center justify-center">
-  <img
-    src="../img/aquasoft__1_-removebg-preview-removebg-preview.png"
-    alt="Icon"
-    className="w-7 h-7 object-contain"
-  />
-</div>
-
-
-            <h1 className="text-xl font-semibold text-gray-800 tracking-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-800">
+          {/* Logo with link to homepage */}
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-900 shadow-md flex items-center justify-center">
+              <img
+                src="../img/aquasoft__1_-removebg-preview-removebg-preview.png"
+                alt="AquaSoft Logo"
+                className="w-7 h-7 object-contain"
+              />
+            </div>
+            <h1 className="text-xl font-bold tracking-tight text-gray-800">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-700">
                 Aqua
               </span>
               Soft
             </h1>
-          </div>
+          </Link>
 
-          {/* Navigation with micro-interactions */}
-          <ul className="flex space-x-6">
-            <NavItem
-              to="/ticket-issue"
-              icon="🎟️"
-              label="Tickets"
-              color="from-blue-400 to-cyan-500"
-            />
-            <NavItem
-              to="/restaurant"
-              icon="🍽️"
-              label="Dining"
-              color="from-amber-400 to-orange-400"
-            />
+          {/* Navigation Items */}
+          <ul className="flex space-x-6 items-center">
+            <NavItem to="/ticket-issue" icon={faTicket} label="Tickets" color="from-blue-400 to-cyan-500" />
+            <NavItem to="/restaurant" icon={faUtensils} label="Dining" color="from-yellow-400 to-orange-500" />
+            <NavItem to="/ArticleSalesPage" icon={faShoppingBag} label="Article Sale" color="from-green-400 to-blue-400" />
+            <NavItem to="/CostumeForm" icon={faTshirt} label="Costume" color="from-pink-400 to-purple-500" />
+            <NavItem to="/band-issuance" icon={faMoneyCheckAlt} label="Band Issuance" color="from-indigo-400 to-purple-500" />
           </ul>
         </nav>
       </div>
@@ -46,27 +44,27 @@ const Header = () => {
   );
 };
 
-// Reusable NavItem component for cleaner code
+// Reusable NavItem component
 const NavItem = ({ to, icon, label, color }) => (
   <li>
     <Link
       to={to}
       className={`
-        relative px-3 py-2 flex items-center space-x-2 text-sm font-medium
-        text-gray-600 hover:text-gray-900 transition-colors duration-200
-        group
+        relative px-4 py-2 flex items-center space-x-2 text-sm font-medium
+        text-gray-700 hover:text-indigo-700 transition-all duration-200 group
       `}
     >
-      <span className="text-lg transition-transform duration-200 group-hover:scale-110">
-        {icon}
-      </span>
+      <FontAwesomeIcon
+        icon={icon}
+        className="text-blue-500 text-lg transition-transform duration-200 group-hover:scale-110"
+      />
       <span>{label}</span>
       <span
         className={`
-        absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 
-        bg-gradient-to-r ${color} rounded-full
-        transition-all duration-300 group-hover:w-4/5
-      `}
+          absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 
+          bg-gradient-to-r ${color} rounded-full
+          transition-all duration-300 group-hover:w-4/5
+        `}
       ></span>
     </Link>
   </li>
