@@ -3,12 +3,15 @@ import CategoryButtons from "../../components/restro/CategoryButtons";
 import ProductList from "../../components/restro/ProductList";
 import Cart from "../../components/restro/Cart";
 import productsData from "../../data/products";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const RestaurantPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("starter");
   const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate();
 
-  // Add product to cart with quantity
   const handleAddToCart = (product, quantity = 1) => {
     const exists = cartItems.find((item) => item.id === product.id);
     if (exists) {
@@ -20,14 +23,10 @@ const RestaurantPage = () => {
         )
       );
     } else {
-      setCartItems((prev) => [
-        ...prev,
-        { ...product, quantity, discount: 0 },
-      ]);
+      setCartItems((prev) => [...prev, { ...product, quantity, discount: 0 }]);
     }
   };
 
-  // Update quantity or discount
   const updateCartItem = (id, field, value) => {
     setCartItems((prev) =>
       prev.map((item) =>
@@ -36,59 +35,43 @@ const RestaurantPage = () => {
     );
   };
 
-  // Remove product from cart
   const removeFromCart = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // Calculate total items in cart
-  // const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
-  // Filter products by selected category
   const filteredProducts = productsData.filter(
     (product) => product.category === selectedCategory
   );
 
   const restaurantCategories = [
-  { id: "starter", label: "Starters" },
-  { id: "main", label: "Main Course" },
-  { id: "dessert", label: "Desserts" },
-  { id: "beverage", label: "Beverages" },
-];
+    { id: "starter", label: "Starters" },
+    { id: "main", label: "Main Course" },
+    { id: "dessert", label: "Desserts" },
+    { id: "beverage", label: "Beverages" },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-6">
-       <div className=""> {/*max-w-7xl mx-auto */}
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Left: Products */}
-          <div className="flex-1 bg-white rounded-2xl shadow-sm p-6 border border-purple-100">
-            {/* <div className="flex justify-between items-center mb-6"> */}
-              {/* <h1 className="text-3xl font-bold text-purple-900">Restaurant Menu</h1>
-              <div className="bg-blue-500 text-white rounded-full px-3 py-1 text-sm font-medium">
-                {totalItems} {totalItems === 1 ? 'Item' : 'Items'} in Cart
-              </div> */}
-            {/* </div> */}
-            <CategoryButtons
-  categories={restaurantCategories}
-  selected={selectedCategory}
-  onSelect={setSelectedCategory}
-/>
-            <div className="mt-6">
-              <ProductList products={filteredProducts} onAdd={handleAddToCart} />
-            </div>
+      <div className="mb-4">
+        <button
+          onClick={() => navigate("/RestaurantTable")}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200/80 hover:border-purple-400/50 text-gray-700 hover:text-purple-600 group transform hover:-translate-x-1"
+        >
+          <FontAwesomeIcon icon={faArrowLeft} className="transition-transform duration-300 group-hover:-translate-x-1" />
+          <span className="font-medium">Back to Restaurants</span>
+        </button>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex-1 bg-white rounded-2xl shadow-sm p-6 border border-purple-100">
+          <CategoryButtons categories={restaurantCategories} selected={selectedCategory} onSelect={setSelectedCategory} />
+          <div className="mt-6">
+            <ProductList products={filteredProducts} onAdd={handleAddToCart} />
           </div>
+        </div>
 
-          {/* Right: Cart */}
-          <div className="w-full lg:w-[520px]">
- 
-    <Cart
-      items={cartItems}
-      onUpdate={updateCartItem}
-      onRemove={removeFromCart}
-    />
-  
-</div>
-
+        <div className="w-full lg:w-[520px]">
+          <Cart items={cartItems} onUpdate={updateCartItem} onRemove={removeFromCart} source="restaurant" />
         </div>
       </div>
     </div>
@@ -96,5 +79,3 @@ const RestaurantPage = () => {
 };
 
 export default RestaurantPage;
-
-//  <div className="sticky top-6 bg-white rounded-2xl shadow-sm p-6 border border-purple-100"></div>

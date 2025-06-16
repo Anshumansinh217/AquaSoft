@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
+import { saveRestaurantBooking, saveArticleBooking } from "../../services/bookingService";
 
 const CartSummary = ({ items, source = "restaurant" }) => {
   const navigate = useNavigate();
@@ -9,29 +10,44 @@ const CartSummary = ({ items, source = "restaurant" }) => {
     (sum, item) => sum + item.price * item.quantity * (1 - item.discount / 100),
     0
   );
-  const gst = subtotal * 0.18;
-  const total = subtotal + gst;
+
+  const gstTotal = items.reduce((sum, item) => {
+    const gstRate = item.gst ?? 18;
+    const itemTotal = item.price * item.quantity * (1 - item.discount / 100);
+    return sum + (itemTotal * gstRate / 100);
+  }, 0);
+
+  const total = subtotal + gstTotal;
 
   const handleCheckout = () => {
     const token = Date.now();
-    navigate("/print-token", {
-      state: { 
-        items, 
-        token,
-        source // Pass the source to PrintToken component
-      },
-    });
+
+    const bookingData = {
+      token,
+      customer: { name: "Anshumansinh Rathore", id: 12345 },
+      items,
+      subtotal,
+      gst: gstTotal,
+      total,
+      date: new Date().toISOString(),
+    };
+
+    if (source === "restaurant") {
+      saveRestaurantBooking(bookingData);
+    } else if (source === "ArticleSalesPage") {
+      saveArticleBooking(bookingData);
+    }
+
+    navigate("/print-token", { state: { items, token, source } });
   };
 
   return (
     <div className="space-y-3 mt-4 border-t border-purple-200 pt-4 text-sm sm:text-base">
-      {/* Total */}
       <div className="flex justify-between text-base sm:text-lg">
         <span className="font-bold text-purple-900">Total:</span>
         <span className="font-bold text-blue-600">₹{total.toFixed(2)}</span>
       </div>
 
-      {/* Checkout Button */}
       <button
         onClick={handleCheckout}
         disabled={items.length === 0}

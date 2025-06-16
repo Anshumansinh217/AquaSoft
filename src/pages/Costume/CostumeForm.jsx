@@ -64,7 +64,7 @@ const costumeTypes = [
     <div className="min-h-screen bg-gradient-to-tr from-blue-50 to-cyan-100 p-6 md:p-10">
       <div className="mb-6">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/CostumeBookingTable")}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200/80 hover:border-blue-400/50 text-gray-700 hover:text-blue-600 group transform hover:-translate-x-1"
         >
           <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />
@@ -130,7 +130,7 @@ const costumeTypes = [
           })}
         </div>
 
-       <div className="w-full max-w-md bg-white/70 backdrop-blur-md border border-gray-200 p-6 rounded-3xl shadow-xl">
+       <div className="w-full lg:max-w-xl bg-white/70 backdrop-blur-md border border-gray-200 p-6 rounded-3xl shadow-xl">
   <h2 className="text-xl font-bold text-purple-700 mb-5 border-b pb-2">Booking Summary</h2>
 
   <div className="mb-5 p-4 bg-white border rounded-lg shadow-inner">
@@ -139,19 +139,19 @@ const costumeTypes = [
   </div>
 
   <div className="w-full text-sm mb-4">
-    <div className="flex font-semibold border-b pb-1">
-      <div className="w-1/2">Ticket</div>
-      <div className="w-1/6 text-center">Nos.</div>
-      <div className="w-1/6 text-center">Rate</div>
-      <div className="w-1/6 text-right pr-6 ">Total</div>
+    <div className="flex font-semibold border-b pb-1 text-sm">
+      <div className="w-[40%]">Ticket</div>
+      <div className="w-[15%] text-center">Nos.</div>
+      <div className="w-[20%] text-center">Rate</div>
+      <div className="w-[25%] text-right pr-6">Total</div>
     </div>
 
     {costumeDetails.map((item) => (
-      <div key={item.id} className="flex py-1 border-b items-center">
-        <div className="w-1/2 flex items-center">{item.name}</div>
-        <div className="w-1/6 text-center mr">{item.quantity}</div>
-        <div className="w-1/6 text-center">₹{item.price}</div>
-        <div className="w-1/6 text-right flex justify-end items-center">
+      <div key={item.id} className="flex py-1 border-b items-center text-sm">
+        <div className="w-[40%]">{item.name}</div>
+        <div className="w-[15%] text-center">{item.quantity}</div>
+        <div className="w-[20%] text-center">₹{item.price}</div>
+        <div className="w-[25%] text-right flex justify-end items-center ">
           ₹{item.total.toFixed(2)}
           <button
             className="ml-2 text-red-500 hover:text-red-700"
@@ -163,40 +163,38 @@ const costumeTypes = [
       </div>
     ))}
 
-    {/* Nos. total row */}
     <div className="flex py-1 border-b font-semibold">
-      <div className="w-1/2">Total</div>
-      <div className="w-1/6 text-center">{totalCount}</div>
-      <div className="w-1/6 text-center"></div>
-      <div className="w-1/6 text-right pr-6">₹{basePrice.toFixed(2)}</div>
+      <div className="w-[40%]">Total</div>
+      <div className="w-[15%] text-center">{totalCount}</div>
+      <div className="w-[20%] text-center"></div>
+      <div className="w-[25%] text-right pr-4">₹{basePrice.toFixed(2)}</div>
     </div>
-
   </div>
 
-  <div className="text-sm mb-2 flex justify-between ">
+  <div className="text-sm mb-2 flex justify-between">
     <span>GST (18%)</span>
-    <span className="pr-6">₹{gst.toFixed(2)}</span>
+    <span className="pr-4">₹{gst.toFixed(2)}</span>
   </div>
 
- <div className="text-lg font-bold flex justify-between border-t pt-3">
-  <span>Total:</span>
-  <span>₹{totalAmount.toFixed(2)}</span>
+  <div className="text-lg font-bold flex justify-between border-t pt-3">
+    <span>Total:</span>
+    <span>₹{totalAmount.toFixed(2)}</span>
+  </div>
+
+  <button
+    disabled={costumeDetails.length === 0}
+    onClick={handleNext}
+    className={`w-full py-3 mt-5 rounded-xl font-medium text-white shadow-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-95
+      ${
+        costumeDetails.length === 0
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+      }`}
+  >
+    Proceed to Checkout →
+  </button>
 </div>
 
-
-        <button
-          disabled={costumeDetails.length === 0}
-          onClick={handleNext}
-          className={`w-full py-3 mt-5 rounded-xl font-medium text-white shadow-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-95
-            ${
-              costumeDetails.length === 0
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-            }`}
-        >
-          Proceed to Checkout →
-        </button>
-      </div>
 
       </div>
     </div>

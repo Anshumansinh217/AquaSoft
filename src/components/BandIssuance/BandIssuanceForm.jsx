@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -6,6 +6,7 @@ import { addBandIssuance } from '../../services/bandIssuanceService';
 
 const BandIssuanceForm = () => {
   const navigate = useNavigate();
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   // Validation schema
   const validationSchema = Yup.object({
@@ -52,8 +53,68 @@ const BandIssuanceForm = () => {
     return { totalAmount, balanceAmount };
   };
 
+  const handleSubmit = (values, { setSubmitting }) => {
+    const { totalAmount, balanceAmount } = calculateTotals(values);
+    const submissionData = {
+      ...values,
+      totalAmount,
+      balanceAmount,
+      issueDate: new Date().toISOString()
+    };
+    
+    addBandIssuance(submissionData);
+    setSubmitting(false);
+    setShowSuccessPopup(true);
+    
+    // Auto-close the popup after 3 seconds and navigate
+    setTimeout(() => {
+      setShowSuccessPopup(false);
+      navigate('/band-issuance');
+    }, 3000);
+  };
+
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-indigo-50 p-4">
+      {/* Success Popup */}
+      {showSuccessPopup && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+          <div className="relative bg-white rounded-lg p-6 max-w-sm w-full mx-4 shadow-xl transform transition-all animate-bounce-in">
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <svg
+                  className="w-10 h-10 text-green-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-1">Success!</h3>
+              <p className="text-sm text-gray-500 text-center">
+                Band issuance record has been saved successfully.
+              </p>
+              <button
+                onClick={() => {
+                  setShowSuccessPopup(false);
+                  navigate('/band-issuance');
+                }}
+                className="mt-4 px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="w-full max-w-6xl bg-white rounded-xl shadow-lg overflow-hidden">
         {/* Compact Header */}
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white">
@@ -64,19 +125,7 @@ const BandIssuanceForm = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              const { totalAmount, balanceAmount } = calculateTotals(values);
-              const submissionData = {
-                ...values,
-                totalAmount,
-                balanceAmount,
-                issueDate: new Date().toISOString()
-              };
-              
-              addBandIssuance(submissionData);
-              setSubmitting(false);
-              navigate('/band-issuance');
-            }}
+            onSubmit={handleSubmit}
           >
             {({ values, handleChange, setFieldValue, isSubmitting }) => {
               const { totalAmount, balanceAmount } = calculateTotals(values);

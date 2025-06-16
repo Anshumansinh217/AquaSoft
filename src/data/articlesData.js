@@ -1,12 +1,14 @@
 // src/data/articlesData.js
 const articlesData = [
   // Women (12 items)
-   {
+  {
     id: 1,
     name: "Handwoven Cotton Kurti",
     image: "../img/articles/kurti1.jpeg",
     price: 999,
     category: "women",
+    gst: 5,
+    hsn: "6104",
   },
   {
     id: 2,
@@ -14,6 +16,8 @@ const articlesData = [
     image: "../img/articles/dress1.jpeg",
     price: 1299,
     category: "women",
+    gst: 12,
+    hsn: "6204",
   },
   {
     id: 3,
@@ -21,6 +25,8 @@ const articlesData = [
     image: "../img/articles/women_jacket1.jpeg",
     price: 1499,
     category: "women",
+    gst: 12,
+    hsn: "6201",
   },
   {
     id: 4,
@@ -28,6 +34,8 @@ const articlesData = [
     image: "../img/articles/palazzo1.jpeg",
     price: 899,
     category: "women",
+    gst: 5,
+    hsn: "6204",
   },
   {
     id: 5,
@@ -35,6 +43,8 @@ const articlesData = [
     image: "../img/articles/anarkali1.jpeg",
     price: 1999,
     category: "women",
+    gst: 12,
+    hsn: "6104",
   },
   {
     id: 6,
@@ -42,6 +52,8 @@ const articlesData = [
     image: "../img/articles/skirt1.jpeg",
     price: 1099,
     category: "women",
+    gst: 12,
+    hsn: "6204",
   },
   {
     id: 7,
@@ -49,6 +61,8 @@ const articlesData = [
     image: "../img/articles/saree1.jpeg",
     price: 1599,
     category: "women",
+    gst: 5,
+    hsn: "5007",
   },
   {
     id: 8,
@@ -56,6 +70,8 @@ const articlesData = [
     image: "../img/articles/top1.jpeg",
     price: 799,
     category: "women",
+    gst: 5,
+    hsn: "6106",
   },
   {
     id: 9,
@@ -63,6 +79,8 @@ const articlesData = [
     image: "../img/articles/linen_pants1.jpeg",
     price: 899,
     category: "women",
+    gst: 5,
+    hsn: "6204",
   },
   {
     id: 10,
@@ -70,6 +88,8 @@ const articlesData = [
     image: "../img/articles/dupatta1.jpeg",
     price: 699,
     category: "women",
+    gst: 5,
+    hsn: "6207",
   },
   {
     id: 11,
@@ -77,6 +97,8 @@ const articlesData = [
     image: "../img/articles/kurti2.jpeg",
     price: 1199,
     category: "women",
+    gst: 5,
+    hsn: "6104",
   },
   {
     id: 12,
@@ -84,15 +106,18 @@ const articlesData = [
     image: "../img/articles/kurti1.jpeg",
     price: 999,
     category: "women",
+    gst: 12,
+    hsn: "6201",
   },
-
   // Men (12 items)
- {
+  {
     id: 13,
     name: "Men's Casual Shirt",
     image: "../img/articles/shirt1.jpeg",
     price: 799,
     category: "men",
+    gst: 5,
+    hsn: "6205",
   },
   {
     id: 14,
@@ -100,6 +125,8 @@ const articlesData = [
     image: "../img/articles/pants1.jpeg",
     price: 1199,
     category: "men",
+    gst: 12,
+    hsn: "6203",
   },
   {
     id: 15,
@@ -107,6 +134,8 @@ const articlesData = [
     image: "../img/articles/men_jacket1.jpeg",
     price: 1399,
     category: "men",
+    gst: 12,
+    hsn: "6201",
   },
   {
     id: 16,
@@ -114,6 +143,8 @@ const articlesData = [
     image: "../img/articles/kurta1.jpeg",
     price: 999,
     category: "men",
+    gst: 5,
+    hsn: "6206",
   },
   {
     id: 17,
@@ -121,6 +152,8 @@ const articlesData = [
     image: "../img/articles/chinos1.jpeg",
     price: 1099,
     category: "men",
+    gst: 12,
+    hsn: "6203",
   },
   {
     id: 18,
@@ -128,6 +161,8 @@ const articlesData = [
     image: "../img/articles/tshirt_pack1.jpeg",
     price: 899,
     category: "men",
+    gst: 5,
+    hsn: "6109",
   },
   {
     id: 19,
@@ -135,6 +170,8 @@ const articlesData = [
     image: "../img/articles/blazer1.jpeg",
     price: 2499,
     category: "men",
+    gst: 12,
+    hsn: "6203",
   },
   {
     id: 20,
@@ -142,6 +179,8 @@ const articlesData = [
     image: "../img/articles/sweatshirt1.jpeg",
     price: 999,
     category: "men",
+    gst: 5,
+    hsn: "6110",
   },
   {
     id: 21,
@@ -149,6 +188,8 @@ const articlesData = [
     image: "../img/articles/shirt2.jpeg",
     price: 1299,
     category: "men",
+    gst: 12,
+    hsn: "6205",
   },
   {
     id: 22,
@@ -156,6 +197,8 @@ const articlesData = [
     image: "../img/articles/tracksuit1.jpeg",
     price: 1499,
     category: "men",
+    gst: 12,
+    hsn: "6211",
   },
   {
     id: 23,
@@ -163,6 +206,8 @@ const articlesData = [
     image: "../img/articles/men_jacket2.jpeg",
     price: 1199,
     category: "men",
+    gst: 12,
+    hsn: "6201",
   },
   {
     id: 24,
@@ -170,15 +215,18 @@ const articlesData = [
     image: "../img/articles/polo1.jpeg",
     price: 699,
     category: "men",
+    gst: 5,
+    hsn: "6105",
   },
-
   // Kids (12 items)
-   {
+  {
     id: 25,
     name: "Kids Cotton Frock",
     image: "../img/articles/kids_frock1.jpeg",
     price: 499,
     category: "kids",
+    gst: 5,
+    hsn: "6204",
   },
   {
     id: 26,
@@ -186,6 +234,8 @@ const articlesData = [
     image: "../img/articles/kids_shorts1.jpeg",
     price: 399,
     category: "kids",
+    gst: 5,
+    hsn: "6203",
   },
   {
     id: 27,
@@ -193,6 +243,8 @@ const articlesData = [
     image: "../img/articles/tutu1.jpeg",
     price: 699,
     category: "kids",
+    gst: 5,
+    hsn: "6204",
   },
   {
     id: 28,
@@ -200,6 +252,8 @@ const articlesData = [
     image: "../img/articles/kids_tshirt1.jpeg",
     price: 299,
     category: "kids",
+    gst: 5,
+    hsn: "6109",
   },
   {
     id: 29,
@@ -207,6 +261,8 @@ const articlesData = [
     image: "../img/articles/kids_jacket1.jpeg",
     price: 899,
     category: "kids",
+    gst: 12,
+    hsn: "6201",
   },
   {
     id: 30,
@@ -214,6 +270,8 @@ const articlesData = [
     image: "../img/articles/dungarees1.jpeg",
     price: 599,
     category: "kids",
+    gst: 5,
+    hsn: "6203",
   },
   {
     id: 31,
@@ -221,6 +279,8 @@ const articlesData = [
     image: "../img/articles/kids_party1.jpeg",
     price: 799,
     category: "kids",
+    gst: 5,
+    hsn: "6204",
   },
   {
     id: 32,
@@ -228,6 +288,8 @@ const articlesData = [
     image: "../img/articles/kids_ethnic1.jpeg",
     price: 999,
     category: "kids",
+    gst: 5,
+    hsn: "6205",
   },
   {
     id: 33,
@@ -235,6 +297,8 @@ const articlesData = [
     image: "../img/articles/kids_hoodie1.jpeg",
     price: 599,
     category: "kids",
+    gst: 5,
+    hsn: "6110",
   },
   {
     id: 34,
@@ -242,6 +306,8 @@ const articlesData = [
     image: "../img/articles/kids_sportshorts1.jpeg",
     price: 399,
     category: "kids",
+    gst: 5,
+    hsn: "6203",
   },
   {
     id: 35,
@@ -249,6 +315,8 @@ const articlesData = [
     image: "../img/articles/kids_leggings1.jpeg",
     price: 349,
     category: "kids",
+    gst: 5,
+    hsn: "6104",
   },
   {
     id: 36,
@@ -256,16 +324,18 @@ const articlesData = [
     image: "../img/articles/kids_kurta1.jpeg",
     price: 699,
     category: "kids",
+    gst: 5,
+    hsn: "6206",
   },
-
-
   // Accessories (12 items)
- {
+  {
     id: 37,
     name: "Leather Wallet",
     image: "../img/articles/wallet1.jpeg",
     price: 499,
     category: "accessories",
+    gst: 5,
+    hsn: "4203",
   },
   {
     id: 38,
@@ -273,6 +343,8 @@ const articlesData = [
     image: "../img/articles/scarf1.jpeg",
     price: 699,
     category: "accessories",
+    gst: 12,
+    hsn: "6214",
   },
   {
     id: 39,
@@ -280,6 +352,8 @@ const articlesData = [
     image: "../img/articles/sunglasses1.jpeg",
     price: 899,
     category: "accessories",
+    gst: 12,
+    hsn: "9004",
   },
   {
     id: 40,
@@ -287,6 +361,8 @@ const articlesData = [
     image: "../img/articles/cap1.jpeg",
     price: 299,
     category: "accessories",
+    gst: 5,
+    hsn: "6505",
   },
   {
     id: 41,
@@ -294,6 +370,8 @@ const articlesData = [
     image: "../img/articles/watch1.jpeg",
     price: 1999,
     category: "accessories",
+    gst: 12,
+    hsn: "9102",
   },
   {
     id: 42,
@@ -301,6 +379,8 @@ const articlesData = [
     image: "../img/articles/bag1.jpeg",
     price: 799,
     category: "accessories",
+    gst: 12,
+    hsn: "4202",
   },
   {
     id: 43,
@@ -308,6 +388,8 @@ const articlesData = [
     image: "../img/articles/belt1.jpeg",
     price: 399,
     category: "accessories",
+    gst: 5,
+    hsn: "4203",
   },
   {
     id: 44,
@@ -315,6 +397,8 @@ const articlesData = [
     image: "../img/articles/earrings1.jpeg",
     price: 299,
     category: "accessories",
+    gst: 5,
+    hsn: "7117",
   },
   {
     id: 45,
@@ -322,6 +406,8 @@ const articlesData = [
     image: "../img/articles/anklet1.jpeg",
     price: 199,
     category: "accessories",
+    gst: 5,
+    hsn: "7117",
   },
   {
     id: 46,
@@ -329,6 +415,8 @@ const articlesData = [
     image: "../img/articles/hairband1.jpeg",
     price: 149,
     category: "accessories",
+    gst: 5,
+    hsn: "6704",
   },
   {
     id: 47,
@@ -336,6 +424,8 @@ const articlesData = [
     image: "../img/articles/cap2.jpeg",
     price: 349,
     category: "accessories",
+    gst: 5,
+    hsn: "6505",
   },
   {
     id: 48,
@@ -343,6 +433,8 @@ const articlesData = [
     image: "../img/articles/bracelet1.jpeg",
     price: 449,
     category: "accessories",
+    gst: 5,
+    hsn: "7117",
   },
 ];
 

@@ -3,9 +3,9 @@ import BandIssuanceList from '../../components/BandIssuance/BandIssuanceList';
 
 const BandIssuanceListPage = () => {
   return (
-    <div className="p-4">
+    <main className="p-4 max-w-7xl mx-auto">
       <BandIssuanceList />
-    </div>
+    </main>
   );
 };
 

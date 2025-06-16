@@ -10,14 +10,21 @@ import TicketIssueHome from "./pages/TicketIssue/TicketIssueHome";
 import TicketForm from "./pages/TicketIssue/TicketForm";
 import TicketPayment from "./pages/TicketIssue/TicketPayment";
 import TicketPrint from "./pages/TicketIssue/TicketPrint";
+
 import Restaurant from "./pages/restaurant/RestaurantPage";
+import RestaurantTable from "./pages/restaurant/RestaurantTable";
+
 import PrintToken from "./pages/restaurant/PrintToken";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoute from "./components/PrivateRoute";
 import HomePage from "./pages/HomePage";
+
+import Article from "./pages/article/Article"
 import ArticleSalesPage from "./pages/article/ArticleSalesPage";
 import CostumeForm from "./pages/Costume/CostumeForm"
 import CostumeReceipt from "./pages/Costume/costume-receipt";
+import CostumeBookingTable from "./pages/Costume/CostumeBookingTable";
+
 
 import BandIssuanceListPage from "./pages/BandIssuance/BandIssuanceListPage";
 import BandIssuanceFormPage from "./pages/BandIssuance/BandIssuanceFormPage";
@@ -105,10 +112,28 @@ function AppContent() {
           />
 
            <Route
+            path="/RestaurantTable"
+            element={
+              <PrivateRoute>
+                <RestaurantTable />
+              </PrivateRoute>
+            }
+          />
+
+           <Route
             path="/ArticleSalesPage"
             element={
               <PrivateRoute>
                 <ArticleSalesPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/Article"
+            element={
+              <PrivateRoute>
+                <Article />
               </PrivateRoute>
             }
           />
@@ -127,6 +152,15 @@ function AppContent() {
             element={
               <PrivateRoute>
                 <CostumeReceipt />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/CostumeBookingTable"
+            element={
+              <PrivateRoute>
+                <CostumeBookingTable />
               </PrivateRoute>
             }
           />

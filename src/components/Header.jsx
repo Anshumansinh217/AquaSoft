@@ -33,9 +33,9 @@ const Header = () => {
           {/* Navigation Items */}
           <ul className="flex space-x-6 items-center">
             <NavItem to="/ticket-issue" icon={faTicket} label="Tickets" color="from-blue-400 to-cyan-500" />
-            <NavItem to="/restaurant" icon={faUtensils} label="Dining" color="from-yellow-400 to-orange-500" />
-            <NavItem to="/ArticleSalesPage" icon={faShoppingBag} label="Article Sale" color="from-green-400 to-blue-400" />
-            <NavItem to="/CostumeForm" icon={faTshirt} label="Costume" color="from-pink-400 to-purple-500" />
+            <NavItem to="/RestaurantTable" icon={faUtensils} label="Dining" color="from-yellow-400 to-orange-500" />
+            <NavItem to="/Article" icon={faShoppingBag} label="Article Sale" color="from-green-400 to-blue-400" />
+            <NavItem to="/CostumeBookingTable" icon={faTshirt} label="Costume" color="from-pink-400 to-purple-500" />
             <NavItem to="/band-issuance" icon={faMoneyCheckAlt} label="Band Issuance" color="from-indigo-400 to-purple-500" />
           </ul>
         </nav>
