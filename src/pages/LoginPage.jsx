@@ -5,14 +5,15 @@ import { useAuth } from "../context/AuthContext";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [firmname, setFirmname] = useState("");
+  // const [firmname, setFirmname] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const success = login(username, password, firmname);
+    const success = login(username, password);
+    // , firmname
     if (success) {
       navigate("/");
     } else {
@@ -57,13 +58,13 @@ const LoginPage = () => {
 
 
 
-  <input
+  {/* <input
     type="text"
     placeholder="Firm Name"
     value={firmname}
     onChange={(e) => setFirmname(e.target.value)}
     className="w-full px-4 py-2 rounded-xl border border-gray-300 bg-gray-800 bg-opacity-60 text-white outline-none focus:ring-2 focus:ring-purple-400 transition-all"
-  />
+  /> */}
   <input
     type="text"
     placeholder="Username"

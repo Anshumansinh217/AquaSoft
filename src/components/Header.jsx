@@ -5,7 +5,8 @@ import {
   faUtensils,
   faShoppingBag,
   faTshirt,
-  faMoneyCheckAlt
+  faMoneyCheckAlt,
+  faLock // ✅ New icon for Locker
 } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
@@ -37,6 +38,8 @@ const Header = () => {
             <NavItem to="/Article" icon={faShoppingBag} label="Article Sale" color="from-green-400 to-blue-400" />
             <NavItem to="/CostumeBookingTable" icon={faTshirt} label="Costume" color="from-pink-400 to-purple-500" />
             <NavItem to="/band-issuance" icon={faMoneyCheckAlt} label="Band Issuance" color="from-indigo-400 to-purple-500" />
+            {/* ✅ Newly added Locker menu */}
+            <NavItem to="/locker-issuance" icon={faLock} label="Locker" color="from-red-400 to-rose-500" />
           </ul>
         </nav>
       </div>

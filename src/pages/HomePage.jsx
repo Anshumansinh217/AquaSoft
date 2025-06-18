@@ -108,6 +108,8 @@ const metrics = [
                   {item.amount}
                 </p>
               </div>
+
+              {/* style={{'height':'4rem', 'width': '4rem'}} */}
               
               <div className={`p-3 rounded-full bg-gradient-to-br ${item.color}`}>
                  <img src={item.icon} alt={item.title} className="w-20 h-20 object-contain" />

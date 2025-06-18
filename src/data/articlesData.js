@@ -34,7 +34,7 @@ const articlesData = [
     image: "../img/articles/palazzo1.jpeg",
     price: 899,
     category: "women",
-    gst: 5,
+    gst: 18,
     hsn: "6204",
   },
   {
@@ -43,7 +43,7 @@ const articlesData = [
     image: "../img/articles/anarkali1.jpeg",
     price: 1999,
     category: "women",
-    gst: 12,
+    gst: 9,
     hsn: "6104",
   },
   {
@@ -103,7 +103,7 @@ const articlesData = [
   {
     id: 12,
     name: "Crop Jacket",
-    image: "../img/articles/kurti1.jpeg",
+    image: "../img/articles/women_jacket2.jpeg",
     price: 999,
     category: "women",
     gst: 12,

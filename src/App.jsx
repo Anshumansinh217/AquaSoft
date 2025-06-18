@@ -19,16 +19,19 @@ import LoginPage from "./pages/LoginPage";
 import PrivateRoute from "./components/PrivateRoute";
 import HomePage from "./pages/HomePage";
 
-import Article from "./pages/article/Article"
+import Article from "./pages/article/Article";
 import ArticleSalesPage from "./pages/article/ArticleSalesPage";
-import CostumeForm from "./pages/Costume/CostumeForm"
+import CostumeForm from "./pages/Costume/CostumeForm";
 import CostumeReceipt from "./pages/Costume/costume-receipt";
 import CostumeBookingTable from "./pages/Costume/CostumeBookingTable";
-
 
 import BandIssuanceListPage from "./pages/BandIssuance/BandIssuanceListPage";
 import BandIssuanceFormPage from "./pages/BandIssuance/BandIssuanceFormPage";
 
+import LockerListPage from "./pages/locker/LockerListPage";
+import LockerIssuancePage from "./pages/locker/LockerIssuancePage";
+
+import LockerReceipt from './pages/locker/LockerReceipt';
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -111,7 +114,7 @@ function AppContent() {
             }
           />
 
-           <Route
+          <Route
             path="/RestaurantTable"
             element={
               <PrivateRoute>
@@ -120,7 +123,7 @@ function AppContent() {
             }
           />
 
-           <Route
+          <Route
             path="/ArticleSalesPage"
             element={
               <PrivateRoute>
@@ -138,7 +141,7 @@ function AppContent() {
             }
           />
 
-           <Route
+          <Route
             path="/CostumeForm"
             element={
               <PrivateRoute>
@@ -166,25 +169,41 @@ function AppContent() {
           />
 
           <Route
-  path="/band-issuance"
-  element={
-    <PrivateRoute>
-      <BandIssuanceListPage />
-    </PrivateRoute>
-  }
-/>
+            path="/band-issuance"
+            element={
+              <PrivateRoute>
+                <BandIssuanceListPage />
+              </PrivateRoute>
+            }
+          />
 
-<Route
-  path="/band-issuance/new"
-  element={
-    <PrivateRoute>
-      <BandIssuanceFormPage />
-    </PrivateRoute>
-  }
-/>
+          <Route
+            path="/band-issuance/new"
+            element={
+              <PrivateRoute>
+                <BandIssuanceFormPage />
+              </PrivateRoute>
+            }
+          />
 
+          
+          <Route
+            path="/locker-issuance"
+            element={
+              <PrivateRoute>
+                <LockerListPage />
+              </PrivateRoute>
+            }
+          />
 
-  
+          <Route
+            path="/locker-issuance/new"
+            element={
+              <PrivateRoute>
+                <LockerIssuancePage />
+              </PrivateRoute>
+            }
+          />
 
           <Route
             path="/print-token"
@@ -194,8 +213,16 @@ function AppContent() {
               </PrivateRoute>
             }
           />
+
+          <Route
+            path="/LockerReceipt"
+            element={
+              <PrivateRoute>
+                <LockerReceipt />
+              </PrivateRoute>
+            }
+          />
         </Routes>
-        
       </div>
 
       {!hideLayout && <Footer />}

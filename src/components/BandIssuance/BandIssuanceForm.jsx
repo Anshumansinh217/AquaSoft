@@ -74,7 +74,7 @@ const BandIssuanceForm = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-indigo-50 p-4">
+    <div className=" flex items-center justify-center bg-gradient-to-br from-gray-50 to-indigo-50 p-4">
       {/* Success Popup */}
       {showSuccessPopup && (
         <div className="fixed inset-0 flex items-center justify-center z-50">

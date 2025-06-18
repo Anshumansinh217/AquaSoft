@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = (username, password, firmname) => {
     // Simple check – replace with real auth logic
-    if (username === "admin" && password === "1234" && firmname ==="Pearlinfo") {
+    if (username === "admin" && password === "1234" ) {
       setIsAuthenticated(true);
       return true;
     }
@@ -27,3 +27,6 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+
+// && firmname ==="Pearlinfo"
