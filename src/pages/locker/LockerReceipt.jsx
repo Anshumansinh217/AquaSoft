@@ -1,66 +1,112 @@
-import React, { useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LockerReceipt = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const data = location.state?.receiptData;
-  const printRef = useRef();
+  const printRef = useRef(null);
+  const [receipt, setReceipt] = useState(null);
+
+  useEffect(() => {
+    const data = location.state?.receiptData;
+    setReceipt(data);
+    if (printRef.current) {
+      printRef.current.focus();
+    }
+  }, [location.state]);
 
   const handlePrint = () => {
     window.print();
+    navigate("/locker-issuance");
   };
 
-  if (!data) {
-    return <div className="p-4 text-center text-red-500">No receipt data found!</div>;
+  const handleDownloadPDF = () => {
+    alert("PDF download functionality would be implemented here.");
+    navigate("/locker-issuance");
+  };
+
+  if (!receipt) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500 font-medium">No Receipt Data Available.</p>
+      </div>
+    );
   }
 
   return (
-    <div className="p-4">
-      <div
-        ref={printRef}
-        className="p-8 max-w-2xl mx-auto bg-white shadow-lg border rounded-md text-sm font-mono print:shadow-none print:border-none"
-      >
-        <h2 className="text-xl font-bold text-center mb-4 border-b pb-2">Locker Issuance Receipt</h2>
+    <>
+      <style>{`
+        @media print {
+          body * { visibility: hidden; }
+          .receipt-container, .receipt-container * { visibility: visible; }
+          .receipt-container { position: absolute; left: 0; top: 0; width: 100%; }
+          .no-print { display: none !important; }
+        }
+      `}</style>
 
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div><strong>Date:</strong> {data.date}</div>
-          <div><strong>Time:</strong> {data.time}</div>
-          <div><strong>Band No:</strong> {data.bandNo}</div>
-          <div><strong>Customer Name:</strong> {data.customerName}</div>
-          <div><strong>Mobile No:</strong> {data.mobileNo || '-'}</div>
-          <div><strong>Payment By:</strong> {data.paymentBy}</div>
-          {data.paymentBy !== 'Cash' && (
-            <div><strong>Reference No:</strong> {data.referenceNo || '-'}</div>
-          )}
-        </div>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 print:bg-white p-4">
+        <div
+          ref={printRef}
+          className="receipt-container w-full max-w-sm bg-white p-6 shadow-md rounded-lg border border-gray-200 print:border-none print:shadow-none"
+          tabIndex="-1"
+        >
+          {/* Header */}
+          <div className="text-center mb-4">
+            <h2 className="font-bold text-xl text-indigo-700">🔐 Locker Issuance Receipt</h2>
+            <p className="text-xs text-gray-500 mt-1">
+              {receipt.date} at {receipt.time}
+            </p>
+          </div>
 
-        <div className="mb-4 border-t pt-2">
-          <p><strong>Selected Lockers:</strong> {data.lockers.join(', ')}</p>
-          <p><strong>Deposit Amount:</strong> ₹{data.depositAmount}</p>
-          <p><strong>Rent Amount:</strong> ₹{data.rentAmount}</p>
-          <p><strong>Total Amount:</strong> ₹{data.totalAmount}</p>
-          <p><strong>Band Balance:</strong> ₹{data.bandBalance}</p>
-          <p><strong>Remaining Balance:</strong> ₹{data.bandRemainingBal}</p>
+          {/* Basic Info */}
+          <div className="text-sm space-y-1 border-t pt-3">
+            <div><strong>Band No:</strong> {receipt.bandNo}</div>
+            <div><strong>Customer:</strong> {receipt.customerName}</div>
+            <div><strong>Mobile:</strong> {receipt.mobileNo || "-"}</div>
+            <div><strong>Payment Mode:</strong> {receipt.paymentBy}</div>
+            {receipt.paymentBy !== "Cash" && (
+              <div><strong>Reference No:</strong> {receipt.referenceNo || "-"}</div>
+            )}
+          </div>
+
+          {/* Locker Info */}
+          <div className="mt-4 pt-3 border-t border-dashed border-gray-300 space-y-1 text-sm">
+            <div><strong>Selected Lockers:</strong> {receipt.lockers.join(", ")}</div>
+            <div><strong>Deposit Amount:</strong> ₹{receipt.depositAmount}</div>
+            <div><strong>Rent Amount:</strong> ₹{receipt.rentAmount}</div>
+            <div className="font-semibold border-t pt-2 mt-2"><strong>Total:</strong> ₹{receipt.totalAmount}</div>
+          </div>
+
+          {/* Balance Info */}
+          <div className="mt-4 pt-3 border-t border-dashed border-gray-300 text-sm space-y-1">
+            <div><strong>Band Balance:</strong> ₹{receipt.bandBalance}</div>
+            <div><strong>Remaining Balance:</strong> ₹{receipt.bandRemainingBal}</div>
+          </div>
+
+          {/* Footer */}
+          <div className="mt-6 pt-4 border-t border-dashed border-gray-200 text-center">
+            <p className="text-xs text-gray-600">Thank you for using our locker service!</p>
+            <p className="text-[10px] text-gray-400 mt-2">Please keep this receipt for reference.</p>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-center gap-4 mt-6 no-print">
+            <button
+              onClick={handlePrint}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm transition-colors"
+            >
+              Print Receipt
+            </button>
+            <button
+              onClick={handleDownloadPDF}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm transition-colors"
+            >
+              Download PDF
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* Buttons - Hidden while printing */}
-      <div className="text-center pt-4 print:hidden flex justify-center gap-3">
-        <button
-          onClick={() => navigate('/locker-issuance')}
-          className="px-4 py-2 bg-gray-300 text-gray-800 text-sm rounded hover:bg-gray-400"
-        >
-          Back
-        </button>
-        <button
-          onClick={handlePrint}
-          className="px-4 py-2 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700"
-        >
-          Print
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 

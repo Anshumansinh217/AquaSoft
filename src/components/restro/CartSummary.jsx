@@ -6,19 +6,28 @@ import { saveRestaurantBooking, saveArticleBooking } from "../../services/bookin
 const CartSummary = ({ items, source = "restaurant" }) => {
   const navigate = useNavigate();
 
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.price * item.quantity * (1 - item.discount / 100),
-    0
-  );
-
-  const gstTotal = items.reduce((sum, item) => {
-    const gstRate = item.gst ?? 18;
-    const itemTotal = item.price * item.quantity * (1 - item.discount / 100);
-    return sum + (itemTotal * gstRate / 100);
+  // Calculate subtotal: sum of (price * qty * (1 - discount%))
+  const subtotal = items.reduce((sum, item) => {
+    const price = Number(item.price) || 0;
+    const quantity = Number(item.quantity) || 0;
+    const discount = Number(item.discount) || 0;
+    return sum + price * quantity * (1 - discount / 100);
   }, 0);
 
+  // Calculate total GST amount
+  const gstTotal = items.reduce((sum, item) => {
+    const price = Number(item.price) || 0;
+    const quantity = Number(item.quantity) || 0;
+    const discount = Number(item.discount) || 0;
+    const gstRate = Number(item.gst) || 18; // Default GST 18% if not provided
+    const itemTotal = price * quantity * (1 - discount / 100);
+    return sum + (itemTotal * gstRate) / 100;
+  }, 0);
+
+  // Grand total = subtotal + gstTotal
   const total = subtotal + gstTotal;
 
+  // Handle checkout process: save booking and navigate to print page
   const handleCheckout = () => {
     const token = Date.now();
 

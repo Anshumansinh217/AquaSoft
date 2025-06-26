@@ -1,4 +1,4 @@
-const products = [
+const defaultProducts = [
   // Starters (12 items)
   {
     id: 1,
@@ -437,4 +437,11 @@ const products = [
   },
 ];
 
+// 🟡 Always load dynamic data from localStorage if present
+const storedProducts = JSON.parse(localStorage.getItem("restaurantProducts"));
+const products = storedProducts?.length > 0 ? storedProducts : defaultProducts;
+
+
 export default products;
+
+

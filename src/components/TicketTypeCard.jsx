@@ -1,86 +1,77 @@
-import { FaCrown, FaTicketAlt } from "react-icons/fa";
+// TicketTypeCard.jsx
+import { FaCrown, FaTicketAlt, FaCalendarAlt } from "react-icons/fa";
 
-const TicketTypeCard = ({ type, selectedTypes, setSelectedTypes }) => {
+const TicketTypeCard = ({
+  type,
+  selectedTypes,
+  setSelectedTypes,
+  customColor,
+}) => {
   const isSelected = selectedTypes.includes(type.id);
   const isPremium = type.name.toLowerCase().includes("premium");
 
   const toggleType = () => {
-    if (isSelected) {
-      setSelectedTypes(selectedTypes.filter((id) => id !== type.id));
-    } else {
-      setSelectedTypes([...selectedTypes, type.id]);
-    }
+    setSelectedTypes(
+      isSelected
+        ? selectedTypes.filter((id) => id !== type.id)
+        : [...selectedTypes, type.id]
+    );
   };
 
-  const cardGradients = {
-    Platinum: "bg-gradient-to-br from-pink-100 via-pink-200 to-pink-100",
-    Diwali: "bg-gradient-to-br from-orange-100 via-yellow-100 to-orange-100",
-    Express: "bg-gradient-to-br from-green-100 via-lime-100 to-green-100",
-    "Park Visit": "bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-100",
-    "Tuesday & Thursday": "bg-gradient-to-br from-yellow-100 via-amber-100 to-yellow-100",
-    "Golden with Lunch": "bg-gradient-to-br from-red-100 via-rose-100 to-red-100",
-    "Water Park Entry": "bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-100",
-  };
-
-  const bgColor = isSelected
-    ? "bg-gradient-to-br from-blue-50 to-purple-50"
-    : cardGradients[type.name] || "bg-white/90";
+  const bgColor = customColor || type.color || "#ffffff";
 
   return (
     <div
       onClick={toggleType}
-      className={`relative cursor-pointer p-4 sm:p-5 md:p-6 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] 
-        ${bgColor} 
-        ${isSelected ? "border-2 border-blue-400/80 shadow-lg" : "border border-gray-200/80 shadow-md hover:shadow-lg"}
-        ${isPremium ? "ring-2 ring-yellow-400/40" : ""}
-        w-full
+      className={`relative cursor-pointer p-4 transition-all duration-200
+        ring-2 ${isSelected ? "ring-blue-500/80 shadow-md" : "ring-transparent shadow-sm"}
+        ${isPremium ? "ring-yellow-400/50" : ""}
+        flex flex-col justify-between text-sm
+        rounded-[20px] border border-gray-200 
+        before:absolute before:content-[''] before:w-5 before:h-5 before:bg-white before:rounded-full before:-left-2 before:top-6
+        after:absolute after:content-[''] after:w-5 after:h-5 after:bg-white after:rounded-full after:-right-2 after:bottom-6
       `}
+      style={{ backgroundColor: bgColor }}
     >
       {isPremium && (
-        <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 z-10 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white p-1 rounded-full shadow-lg">
-          <FaCrown className="text-[10px] sm:text-xs" />
+        <div className="absolute top-2 right-2 bg-yellow-400 text-white p-1 rounded-full shadow">
+          <FaCrown className="text-[10px]" />
         </div>
       )}
 
-      {/* Icon + Price Row */}
-      <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
-        <div
-          className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg 
-            ${isSelected ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white" : "bg-gray-100 text-gray-600"}`}
-        >
-          <FaTicketAlt className="text-lg sm:text-xl" />
-        </div>
-        <div className="text-right text-sm sm:text-base">
-          <p className={isSelected ? "text-blue-700" : "text-gray-600"}>
-            Adult: ₹{type.price.adult}
-          </p>
-          <p className={isSelected ? "text-blue-700" : "text-gray-600"}>
-            Child: ₹{type.price.child}
-          </p>
-        </div>
-      </div>
-
-      {/* Title */}
-      <h3
-        className={`text-lg sm:text-xl font-bold leading-snug ${
-          isSelected
-            ? "bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
-            : "text-gray-800"
-        }`}
-      >
+      <h3 className={`font-bold text-base mb-2 ${isSelected ? "text-blue-800" : "text-gray-800"}`}>
         {type.name}
       </h3>
 
-      {/* Pulse Indicator */}
-      {isSelected && (
-        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-600 rounded-full animate-pulse"></div>
-      )}
+      <div className="grid grid-cols-2 gap-y-1 gap-x-3 mb-2">
+        <p className="text-gray-700">Adult ₹{type.price.adult}</p>
+        <p className="text-gray-700">Child ₹{type.price.child}</p>
 
-      {/* Overlay on hover */}
-      <div
-        className={`absolute inset-0 rounded-2xl pointer-events-none transition-all duration-300 
-          ${isSelected ? "bg-gradient-to-br from-blue-200/20 to-purple-200/20" : "hover:bg-gray-100/10"}`}
-      ></div>
+        {(type.price.weekendAdult > 0 || type.price.weekendChild > 0) && (
+          <>
+            <p className="col-span-2 text-blue-600 flex items-center gap-1 text-xs mt-1">
+              <FaCalendarAlt className="text-blue-500" />
+              Weekend Rates:
+            </p>
+            {type.price.weekendAdult > 0 && (
+              <p className="text-xs text-blue-900">Adult ₹{type.price.weekendAdult}</p>
+            )}
+            {type.price.weekendChild > 0 && (
+              <p className="text-xs text-blue-900">Child ₹{type.price.weekendChild}</p>
+            )}
+          </>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between mt-auto pt-2">
+        <div
+          className={`w-7 h-7 rounded-md flex items-center justify-center 
+            ${isSelected ? "bg-blue-600 text-white" : "bg-white/80 text-gray-600"}`}
+        >
+          <FaTicketAlt className="text-xs" />
+        </div>
+        {isSelected && <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />}
+      </div>
     </div>
   );
 };

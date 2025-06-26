@@ -31,7 +31,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
             Delete Confirmation
           </h3>
           <p className="text-gray-600 text-center mb-6">
-            Are you sure you want to delete this band issuance record? This action cannot be undone.
+            Are you sure you want to delete this record? This action cannot be undone.
           </p>
 
           <div className="flex justify-center gap-4">

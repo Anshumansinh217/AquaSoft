@@ -97,23 +97,59 @@ const LockerTable = () => {
           <FontAwesomeIcon icon={faPlus} className="transition-transform duration-300 group-hover:rotate-90" />
           <span className="font-medium">New Locker</span>
         </button>
+        
       </div>
 
-      {/* Filters */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-sky-50 flex flex-wrap gap-4">
-        <input type="date" value={fromDate} onChange={e => setFromDate(e.target.value)} className="border p-2 rounded-md shadow-sm" />
-        <input type="date" value={toDate} onChange={e => setToDate(e.target.value)} className="border p-2 rounded-md shadow-sm" />
-        <select value={paymentBy} onChange={e => setPaymentBy(e.target.value)} className="border p-2 rounded-md shadow-sm">
-          <option value="ALL">ALL</option>
-          <option value="Cash">Cash</option>
-          <option value="Card">Card</option>
-          <option value="UPI">UPI</option>
-        </select>
-        <input type="text" placeholder="Search Here..." value={searchText} onChange={e => setSearchText(e.target.value)} className="border p-2 rounded-md shadow-sm" />
-        <button onClick={handleSearch} className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md shadow hover:scale-105 transition">
-          Search
-        </button>
-      </div>
+{/* Filters */}
+<div className="px-6 py-4 border-b border-gray-200 bg-sky-50 flex flex-wrap items-center gap-4 text-sm">
+  <input
+    type="date"
+    value={fromDate}
+    onChange={e => setFromDate(e.target.value)}
+    className="border p-2 rounded-md shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none"
+  />
+  <input
+    type="date"
+    value={toDate}
+    onChange={e => setToDate(e.target.value)}
+    className="border p-2 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+  />
+  <select
+    value={paymentBy}
+    onChange={e => setPaymentBy(e.target.value)}
+    className="border p-2 rounded-md shadow-sm focus:ring-2 focus:ring-pink-600 focus:outline-none"
+  >
+    <option value="ALL">ALL</option>
+    <option value="Cash">Cash</option>
+    <option value="Card">Card</option>
+    <option value="UPI">UPI</option>
+  </select>
+  <input
+    type="text"
+    placeholder="Search Here..."
+    value={searchText}
+    onChange={e => setSearchText(e.target.value)}
+    className="border p-2 rounded-md shadow-sm focus:ring-2 focus:ring-pink-900 focus:outline-none"
+  />
+  <button
+    onClick={handleSearch}
+    className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md shadow hover:scale-105 transition-transform"
+  >
+    Search
+  </button>
+
+  {/* Status Legend */}
+  <div className="flex items-center gap-4 ml-auto text-gray-600 whitespace-nowrap">
+    <span className="flex items-center gap-1">
+      🟡 <span className="text-gray-700 font-medium">= Issued</span>
+    </span>
+    <span className="flex items-center gap-1">
+      ✅ <span className="text-gray-700 font-medium">= Returned</span>
+    </span>
+  </div>
+</div>
+
+      
 
       {/* Table */}
       <div className="p-6">
@@ -132,15 +168,21 @@ const LockerTable = () => {
                 <th className="p-3 border w-28">Rent Amt.</th>
                 <th className="p-3 border w-28">Depo. Amt.</th>
                 <th className="p-3 border w-28">Total Amt.</th>
+                <th className="p-3 border w-24">Status</th>
                 <th className="p-3 border w-20 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredData.length === 0 ? (
-                <tr><td colSpan="12" className="text-center py-6 text-gray-400">No records found</td></tr>
+                <tr><td colSpan="13" className="text-center py-6 text-gray-400">No records found</td></tr>
               ) : (
                 filteredData.map((item, index) => (
-                  <tr key={index} className="hover:bg-gray-50 transition">
+                  <tr
+                    key={index}
+                    className={`hover:bg-gray-50 transition ${
+                      item.status === 'Returned' ? 'bg-gray-100 text-gray-500' : ''
+                    }`}
+                  >
                     <td className="p-3 border text-center">{index + 1}</td>
                     <td className="p-3 border">{item.date}</td>
                     <td className="p-3 border">{item.time}</td>
@@ -152,8 +194,18 @@ const LockerTable = () => {
                     <td className="p-3 border text-right">₹ {formatCurrency(item.rentAmount)}</td>
                     <td className="p-3 border text-right">₹ {formatCurrency(item.depositAmount)}</td>
                     <td className="p-3 border text-right font-semibold text-green-600">₹ {formatCurrency(item.totalAmount)}</td>
+                    <td className="p-3 border text-center font-medium">
+                      {item.status === 'Returned' ? (
+                        <span className="text-green-600">✅ </span>
+                      ) : (
+                        <span className="text-yellow-600">🟡 </span>
+                      )}
+                    </td>
                     <td className="p-3 border text-center">
-                      <button onClick={() => handleDeleteClick(index)} className="bg-red-500 text-white px-3 py-1 rounded shadow hover:scale-105 transition">
+                      <button
+                        onClick={() => handleDeleteClick(index)}
+                        className="bg-red-500 text-white px-3 py-1 rounded shadow hover:scale-105 transition"
+                      >
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </td>

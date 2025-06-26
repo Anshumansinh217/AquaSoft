@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik';
 import * as Yup from 'yup';
 
 const LockerIssuanceForm = () => {
   const navigate = useNavigate();
+  const [availableLockers, setAvailableLockers] = useState([]);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  useEffect(() => {
+    const allLockers = JSON.parse(localStorage.getItem('lockerMasterData')) || [];
+
+    const issuedData = JSON.parse(localStorage.getItem('lockerIssuanceData')) || [];
+    const issuedLockers = issuedData
+      .filter(entry => entry.status !== 'Returned')
+      .flatMap(entry => entry.lockers || []);
+
+    const freeLockers = allLockers.filter(locker => !issuedLockers.includes(locker.lockerNo));
+    setAvailableLockers(freeLockers); // Store full locker objects
+  }, []);
 
   const initialValues = {
     bandNo: '',
@@ -17,43 +30,44 @@ const LockerIssuanceForm = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    bandNo: Yup.string().required('Required'),
+    mobileNo: Yup.string().required('Required'),
     customerName: Yup.string().required('Required'),
     paymentBy: Yup.string().required('Required'),
     lockers: Yup.array().of(Yup.string().required('Select locker')),
   });
 
   const handleMobileChange = (e, setFieldValue) => {
-    const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 10) value = value.slice(0, 10);
     setFieldValue("mobileNo", value);
   };
 
   const handleSubmit = (values) => {
-  const lockerCount = values.lockers.filter(locker => locker !== '').length;
-  const depositAmount = 200;
-  const rentAmount = 150 * lockerCount;
-  const totalAmount = depositAmount + rentAmount;
-  const bandBalance = 5000;
-  const remainingBal = bandBalance - totalAmount;
+    const lockerCount = values.lockers.filter(locker => locker !== '').length;
+    const depositAmount = 200;
+    const rentAmount = 150 * lockerCount;
+    const totalAmount = depositAmount + rentAmount;
+    const bandBalance = 5000;
+    const remainingBal = bandBalance - totalAmount;
 
-  const newEntry = {
-    ...values,
-    depositAmount,
-    rentAmount,
-    bandBalance,
-    totalAmount,
-    bandRemainingBal: remainingBal,
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString(),
+    const newEntry = {
+      ...values,
+      depositAmount,
+      rentAmount,
+      bandBalance,
+      totalAmount,
+      bandRemainingBal: remainingBal,
+      status: 'Issued',
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+    };
+
+    const existingData = JSON.parse(localStorage.getItem('lockerIssuanceData')) || [];
+    existingData.push(newEntry);
+    localStorage.setItem('lockerIssuanceData', JSON.stringify(existingData));
+
+    navigate('/LockerReceipt', { state: { receiptData: newEntry } });
   };
-
-  const existingData = JSON.parse(localStorage.getItem('lockerIssuanceData')) || [];
-  existingData.push(newEntry);
-  localStorage.setItem('lockerIssuanceData', JSON.stringify(existingData));
-
-  navigate('/LockerReceipt', { state: { receiptData: newEntry } }); // 👈 redirect here
-};
-
 
   return (
     <div className="flex items-center justify-center bg-gradient-to-br from-gray-50 to-indigo-50 p-4">
@@ -70,6 +84,10 @@ const LockerIssuanceForm = () => {
             const totalAmount = depositAmount + rentAmount;
             const bandBalance = 5000;
             const remainingBal = bandBalance - totalAmount;
+
+            const getAvailableOptions = (selectedLockers) => {
+              return availableLockers.filter(l => !selectedLockers.includes(l.lockerNo));
+            };
 
             return (
               <Form className="p-4 space-y-3">
@@ -103,6 +121,7 @@ const LockerIssuanceForm = () => {
                         />
                       )}
                     </Field>
+                    <ErrorMessage name="mobileNo" component="div" className="text-red-500 text-xs" />
                   </div>
 
                   <div>
@@ -153,26 +172,50 @@ const LockerIssuanceForm = () => {
                   <FieldArray name="lockers">
                     {({ push, remove }) => (
                       <>
-                        {values.lockers.map((locker, index) => (
-                          <div key={index} className="flex items-center gap-2 mb-2">
-                            <Field as="select" name={`lockers[${index}]`} className="w-1/2 px-3 py-2 text-sm rounded border border-gray-300">
-                              <option value="">Select Locker</option>
-                              <option value="0123">0123</option>
-                              <option value="1001">1001</option>
-                              <option value="1002">1002</option>
-                              <option value="1005">1005</option>
-                              <option value="5001">5001</option>
-                              <option value="5002">5002</option>
-                              <option value="5003">5003</option>
-                            </Field>
-                            {values.lockers.length > 1 && (
-                              <button type="button" onClick={() => remove(index)} className="px-3 py-2 bg-red-100 text-red-600 rounded">X</button>
-                            )}
-                          </div>
-                        ))}
-                        <button type="button" onClick={() => push('')} className="mt-2 px-4 py-2 bg-indigo-500 text-white rounded">
-                          Add Locker
-                        </button>
+                        {values.lockers.map((locker, index) => {
+                          const remainingOptions = getAvailableOptions(
+                            values.lockers.filter((l, i) => i !== index)
+                          );
+
+                          return (
+                            <div key={index} className="flex items-center gap-2 mb-2">
+                              <Field
+                                as="select"
+                                name={`lockers[${index}]`}
+                                className="w-1/2 px-3 py-2 text-sm rounded border border-gray-300"
+                                onChange={(e) => {
+                                  const selectedLockerNo = e.target.value;
+                                  setFieldValue(`lockers[${index}]`, selectedLockerNo);
+
+                                  // Auto-set bandNo if first locker is selected
+                                  if (index === 0) {
+                                    const selectedLocker = availableLockers.find(
+                                      l => l.lockerNo === selectedLockerNo
+                                    );
+                                    if (selectedLocker) {
+                                      setFieldValue('bandNo', selectedLocker.bandNo || '');
+                                    }
+                                  }
+                                }}
+                              >
+                                <option value="">Select Locker</option>
+                                {remainingOptions.map((lockerObj) => (
+                                  <option key={lockerObj.lockerNo} value={lockerObj.lockerNo}>
+                                    {lockerObj.lockerNo}
+                                  </option>
+                                ))}
+                              </Field>
+                              {values.lockers.length > 1 && (
+                                <button type="button" onClick={() => remove(index)} className="px-3 py-2 bg-red-100 text-red-600 rounded">X</button>
+                              )}
+                            </div>
+                          );
+                        })}
+                        {availableLockers.length > values.lockers.length && (
+                          <button type="button" onClick={() => push('')} className="mt-2 px-4 py-2 bg-indigo-500 text-white rounded">
+                            Add Locker
+                          </button>
+                        )}
                       </>
                     )}
                   </FieldArray>
@@ -192,7 +235,6 @@ const LockerIssuanceForm = () => {
         </Formik>
       </div>
 
-      {/* Success Popup */}
       {showSuccessPopup && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-black bg-opacity-50"></div>

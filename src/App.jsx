@@ -30,6 +30,8 @@ import BandIssuanceFormPage from "./pages/BandIssuance/BandIssuanceFormPage";
 
 import LockerListPage from "./pages/locker/LockerListPage";
 import LockerIssuancePage from "./pages/locker/LockerIssuancePage";
+import LockerReturn from "./components/locker/LockerReturn";
+
 
 import LockerReceipt from './pages/locker/LockerReceipt';
 
@@ -41,6 +43,12 @@ import {
   faEye,
   faRupeeSign
 } from "@fortawesome/free-solid-svg-icons";
+
+
+
+
+import AdminRoutes from "./routes/AdminRoutes";
+import AdminLogin from "./pages/admin/AdminLogin";
 
 library.add(faEdit, faPrint, faTrash, faEye, faRupeeSign);
 
@@ -72,6 +80,12 @@ function AppContent() {
           />
 
           <Route path="/login" element={<LoginPage />} />
+
+           <Route path="/admin-login" element={<AdminLogin />} />
+
+          
+            <Route path="/admin/*" element={<AdminRoutes />} />
+          
 
           <Route
             path="/ticket-issue"
@@ -201,6 +215,15 @@ function AppContent() {
             element={
               <PrivateRoute>
                 <LockerIssuancePage />
+              </PrivateRoute>
+            }
+          />
+
+                    <Route
+            path="/LockerReturn"
+            element={
+              <PrivateRoute>
+                <LockerReturn />
               </PrivateRoute>
             }
           />

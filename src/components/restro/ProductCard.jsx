@@ -28,7 +28,8 @@ const ProductCard = ({ product, onAdd, onRemove }) => {
       <h3 className="font-semibold text-purple-900 text-base mb-1 line-clamp-1">
         {product.name}
       </h3>
-      <p className="text-purple-800 font-medium text-sm">₹{product.price.toFixed(2)}</p>
+      <p className="text-purple-800 font-medium text-sm">₹{Number(product.price).toFixed(2)}</p>
+
 
       {/* Hover glow */}
       <div className="absolute inset-0 rounded-xl pointer-events-none border-2 border-transparent group-hover:border-blue-200/50 transition-all duration-300"></div>

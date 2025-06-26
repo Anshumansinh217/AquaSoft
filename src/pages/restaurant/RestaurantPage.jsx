@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CategoryButtons from "../../components/restro/CategoryButtons";
 import ProductList from "../../components/restro/ProductList";
 import Cart from "../../components/restro/Cart";
-import productsData from "../../data/products";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +9,14 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 const RestaurantPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("starter");
   const [cartItems, setCartItems] = useState([]);
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+
+  // Fetch products from localStorage on component mount
+  useEffect(() => {
+    const storedProducts = JSON.parse(localStorage.getItem("restaurantProducts")) || [];
+    setProducts(storedProducts);
+  }, []);
 
   const handleAddToCart = (product, quantity = 1) => {
     const exists = cartItems.find((item) => item.id === product.id);
@@ -39,7 +45,7 @@ const RestaurantPage = () => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const filteredProducts = productsData.filter(
+  const filteredProducts = products.filter(
     (product) => product.category === selectedCategory
   );
 
@@ -64,14 +70,23 @@ const RestaurantPage = () => {
 
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 bg-white rounded-2xl shadow-sm p-6 border border-purple-100">
-          <CategoryButtons categories={restaurantCategories} selected={selectedCategory} onSelect={setSelectedCategory} />
+          <CategoryButtons
+            categories={restaurantCategories}
+            selected={selectedCategory}
+            onSelect={setSelectedCategory}
+          />
           <div className="mt-6">
             <ProductList products={filteredProducts} onAdd={handleAddToCart} />
           </div>
         </div>
 
         <div className="w-full lg:w-[520px]">
-          <Cart items={cartItems} onUpdate={updateCartItem} onRemove={removeFromCart} source="restaurant" />
+          <Cart
+            items={cartItems}
+            onUpdate={updateCartItem}
+            onRemove={removeFromCart}
+            source="restaurant"
+          />
         </div>
       </div>
     </div>

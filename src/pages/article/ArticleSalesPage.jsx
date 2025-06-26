@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -6,12 +6,18 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import CategoryButtons from "../../components/restro/CategoryButtons";
 import ProductList from "../../components/restro/ProductList";
 import Cart from "../../components/restro/Cart";
-import articlesData from "../../data/articlesData";
 
 const ArticleSalesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("women");
   const [cartItems, setCartItems] = useState([]);
+  const [articlesData, setArticlesData] = useState([]);
   const navigate = useNavigate();
+
+  // Load articles from localStorage on mount
+  useEffect(() => {
+    const savedArticles = JSON.parse(localStorage.getItem("articlesData")) || [];
+    setArticlesData(savedArticles);
+  }, []);
 
   // Add product to cart with quantity
   const handleAddToCart = (product, quantity = 1) => {
@@ -83,10 +89,7 @@ const ArticleSalesPage = () => {
             onSelect={setSelectedCategory}
           />
           <div className="mt-6">
-            <ProductList
-              products={filteredProducts}
-              onAdd={handleAddToCart}
-            />
+            <ProductList products={filteredProducts} onAdd={handleAddToCart} />
           </div>
         </div>
 

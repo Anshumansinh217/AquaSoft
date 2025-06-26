@@ -68,53 +68,53 @@ const TicketPayment = () => {
   );
 
   return (
-    <div className="max-w-7xl mx-auto p-4 h-screen bg-gradient-to-br from-gray-50 to-purple-50 flex flex-col justify-between">
-      {/* Header Section */}
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-purple-900">Complete Your Payment</h1>
-        <p className="text-purple-700/80">Review your order and enter payment details</p>
-      </div>
-
-      {/* Content Section */}
-     <div className="flex justify-between gap-4 mt-6">
-  {/* Payment Summary */}
-  <div className="w-1/3">
-    <TicketSummary 
-      ticketType={ticketType} 
-      totalAmount={totalAmount} 
-      finalAmount={finalAmount} 
-    />
+   <div className="max-w-7xl mx-auto h-screen bg-gradient-to-br from-gray-50 to-purple-50 flex flex-col p-6">
+  {/* Header Section */}
+  <div className="text-center space-y-2 flex-shrink-0">
+    <h1 className="text-3xl font-bold text-purple-900">Complete Your Payment</h1>
+    <p className="text-purple-700/80">Review your order and enter payment details</p>
   </div>
 
-  {/* Apply Discount */}
-  <div className="w-1/3">
-    <DiscountSection
-      discountByAmount={discountByAmount}
-      discountByPercent={discountByPercent}
-      onAmountChange={(e) => setDiscountByAmount(parseFloat(e.target.value) || 0)}
-      onPercentChange={(e) => setDiscountByPercent(parseFloat(e.target.value) || 0)}
-    />
+  {/* Content Section */}
+  <div className="flex justify-between gap-4 mt-6 flex-grow overflow-hidden">
+    {/* Payment Summary */}
+    <div className="w-1/3 h-full overflow-auto rounded-lg shadow-inner p-4 bg-white">
+      <TicketSummary 
+        ticketType={ticketType} 
+        totalAmount={totalAmount} 
+        finalAmount={finalAmount} 
+      />
+    </div>
+
+    {/* Apply Discount */}
+    <div className="w-1/3 h-full overflow-auto rounded-lg shadow-inner p-4 bg-white">
+      <DiscountSection
+        discountByAmount={discountByAmount}
+        discountByPercent={discountByPercent}
+        onAmountChange={(e) => setDiscountByAmount(parseFloat(e.target.value) || 0)}
+        onPercentChange={(e) => setDiscountByPercent(parseFloat(e.target.value) || 0)}
+      />
+    </div>
+
+    {/* Payment Details */}
+    <div className="w-1/3 h-full overflow-auto rounded-lg shadow-inner p-4 bg-white">
+      <PaymentSection
+        paymentMethod={paymentMethod}
+        referenceNo={referenceNo}
+        remark={remark}
+        onMethodChange={(e) => setPaymentMethod(e.target.value)}
+        onRefChange={(e) => setReferenceNo(e.target.value)}
+        onRemarkChange={(e) => setRemark(e.target.value)}
+      />
+    </div>
   </div>
 
-  {/* Payment Details */}
-  <div className="w-1/3">
-    <PaymentSection
-      paymentMethod={paymentMethod}
-      referenceNo={referenceNo}
-      remark={remark}
-      onMethodChange={(e) => setPaymentMethod(e.target.value)}
-      onRefChange={(e) => setReferenceNo(e.target.value)}
-      onRemarkChange={(e) => setRemark(e.target.value)}
-    />
+  {/* Action Buttons */}
+  <div className="flex-shrink-0 pt-4">  {/* removed mt-6, added pt-4 for slight top padding */}
+    <ActionButtons onSave={handleSave} />
   </div>
 </div>
 
-
-      {/* Action Buttons */}
-      <div className="mt-6">
-        <ActionButtons onSave={handleSave} />
-      </div>
-    </div>
   );
 };
 

@@ -9,16 +9,18 @@ const Cart = ({ items, onUpdate, onRemove, source }) => {
     id: 12345,
   };
 
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.price * item.quantity * (1 - item.discount / 100),
-    0
-  );
+const subtotal = items.reduce(
+  (sum, item) =>
+    sum + Number(item.price) * item.quantity * (1 - (Number(item.discount) || 0) / 100),
+  0
+);
 
-  const gstTotal = items.reduce((sum, item) => {
-    const gstRate = item.gst ?? 18;
-    const itemTotal = item.price * item.quantity * (1 - item.discount / 100);
-    return sum + (itemTotal * gstRate / 100);
-  }, 0);
+const gstTotal = items.reduce((sum, item) => {
+  const gstRate = Number(item.gst) || 18;
+  const itemTotal = Number(item.price) * item.quantity * (1 - (Number(item.discount) || 0) / 100);
+  return sum + (itemTotal * gstRate) / 100;
+}, 0);
+
 
   return (
     <div className="relative bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border-2 border-purple-100 shadow-lg p-4 sm:p-6 group">

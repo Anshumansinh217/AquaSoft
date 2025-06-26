@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const ActionButtons = ({ onSave }) => {
   const navigate = useNavigate();
   return (
-    <div className="flex justify-between mt-8 space-x-4">
+    <div className="flex justify-between space-x-4">
       {/* Back Button */}
       <button
         onClick={() => navigate(-1)}

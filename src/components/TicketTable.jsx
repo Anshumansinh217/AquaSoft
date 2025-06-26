@@ -1,4 +1,3 @@
-'use client';
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,8 +8,9 @@ import {
   faTrash,
   faChevronLeft,
   faChevronRight,
- 
 } from "@fortawesome/free-solid-svg-icons";
+
+import DeleteConfirmationModal from "../components/Popup/DeleteConfirmationModal";
 
 const ActionButton = ({ icon, color, onClick }) => {
   const colorClasses = {
@@ -35,6 +35,8 @@ const TicketTable = () => {
   const [rowData, setRowData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedTicketIndex, setSelectedTicketIndex] = useState(null);
 
   useEffect(() => {
     const ticketsJSON = localStorage.getItem("tickets");
@@ -57,19 +59,33 @@ const TicketTable = () => {
   const handleNext = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   const formatDate = (dateString) => {
-    if (!dateString) return '-';
+    if (!dateString) return "-";
     const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    if (isNaN(date)) return dateString;
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = String(date.getFullYear()).slice(-2);
     return `${day}-${month}-${year}`;
   };
 
-  return (
-    <div className="  ">
-     
+  const handleDeleteClick = (index) => {
+    setSelectedTicketIndex(index);
+    setDeleteModalOpen(true);
+  };
 
-      {/* Table */}
+  const handleConfirmDelete = () => {
+    if (selectedTicketIndex !== null) {
+      const updatedTickets = [...rowData];
+      updatedTickets.splice(selectedTicketIndex, 1);
+      setRowData(updatedTickets);
+      localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+      setDeleteModalOpen(false);
+      setSelectedTicketIndex(null);
+    }
+  };
+
+  return (
+    <div>
       <div className="p-2">
         <div className="overflow-x-auto">
           <table className="min-w-full border rounded-lg overflow-hidden text-sm text-gray-700">
@@ -88,59 +104,69 @@ const TicketTable = () => {
             </thead>
             <tbody>
               {currentEntries.length === 0 ? (
-                <tr><td colSpan="9" className="text-center py-6 text-gray-400">No records found</td></tr>
+                <tr>
+                  <td colSpan="9" className="text-center py-6 text-gray-400">
+                    No records found
+                  </td>
+                </tr>
               ) : (
-                currentEntries.map((item, index) => (
-                  <tr key={index} className="hover:bg-gray-50 transition">
-                    <td className="p-3 border text-center">{formatDate(item.date)}</td>
-                    <td className="p-3 border text-center">{item.time || '-'}</td>
-                    <td className="p-3 border font-semibold text-center">{item.ticketNo || '-'}</td>
-                    <td className="p-3 border text-center">{item.adult || '0'}</td>
-                    <td className="p-3 border text-center">{item.children || '0'}</td>
-                    <td className="p-3 border font-semibold text-center">{parseInt(item.adult || 0) + parseInt(item.children || 0)}</td>
-                    <td className="p-3 border text-center">
-                      <span
-                        className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                          item.paymentBy === "Card"
-                            ? "bg-blue-100/60 text-blue-800 border border-blue-200/50"
-                            : "bg-emerald-100/60 text-emerald-800 border border-emerald-200/50"
-                        }`}
-                      >
-                        {item.paymentBy || '-'}
-                      </span>
-                    </td>
-                    <td className="p-3 border font-semibold text-center">
-                      <span className="text-gray-900 font-semibold flex items-center justify-center">
-                        <FontAwesomeIcon icon={faRupeeSign} className="mr-1 text-gray-500" />
-                        {item.amount || '0.00'}
-                      </span>
-                    </td>
-                    <td className="p-3 border text-center">
-                      <div className="flex items-center justify-center space-x-1 h-full">
-                        <ActionButton
-                          icon={faEye}
-                          color="blue"
-                          onClick={() => alert(`View ticket ${item.ticketNo}`)}
-                        />
-                        <ActionButton
-                          icon={faPrint}
-                          color="green"
-                          onClick={() => alert(`Print ticket ${item.ticketNo}`)}
-                        />
-                        <ActionButton
-                          icon={faEdit}
-                          color="purple"
-                          onClick={() => alert(`Edit ticket ${item.ticketNo}`)}
-                        />
-                        <ActionButton
-                          icon={faTrash}
-                          color="red"
-                          onClick={() => alert(`Delete ticket ${item.ticketNo}`)}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                currentEntries.map((item, index) => {
+                  const adultCount = Number(item.adult) || 0;
+                  const childrenCount = Number(item.children) || 0;
+                  const totalCount = adultCount + childrenCount;
+
+                  return (
+                    <tr key={index} className="hover:bg-gray-50 transition">
+                      <td className="p-3 border text-center">{formatDate(item.date)}</td>
+                      <td className="p-3 border text-center">{item.time || "-"}</td>
+                      <td className="p-3 border font-semibold text-center">{item.ticketNo || "-"}</td>
+                      <td className="p-3 border text-center">{adultCount}</td>
+                      <td className="p-3 border text-center">{childrenCount}</td>
+                      <td className="p-3 border font-semibold text-center">{totalCount}</td>
+                      <td className="p-3 border text-center">
+                        <span
+                          className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+                            item.paymentBy === "Card"
+                              ? "bg-blue-100/60 text-blue-800 border border-blue-200/50"
+                              : "bg-emerald-100/60 text-emerald-800 border border-emerald-200/50"
+                          }`}
+                        >
+                          {item.paymentBy || "-"}
+                        </span>
+                      </td>
+                      <td className="p-3 border font-semibold text-center">
+                        <span className="text-gray-900 font-semibold flex items-center justify-center">
+                          <FontAwesomeIcon icon={faRupeeSign} className="mr-1 text-gray-500" />
+                          {Number(item.amount).toFixed(2) || "0.00"}
+                        </span>
+                      </td>
+                      <td className="p-3 border text-center">
+                        <div className="flex items-center justify-center space-x-1 h-full">
+                          <ActionButton
+                            icon={faEye}
+                            color="blue"
+                            onClick={() => alert(`View ticket ${item.ticketNo}`)}
+                          />
+                          <ActionButton
+                            icon={faPrint}
+                            color="green"
+                            onClick={() => alert(`Print ticket ${item.ticketNo}`)}
+                          />
+                          <ActionButton
+                            icon={faEdit}
+                            color="purple"
+                            onClick={() => alert(`Edit ticket ${item.ticketNo}`)}
+                          />
+                          <ActionButton
+                            icon={faTrash}
+                            color="red"
+                            onClick={() => handleDeleteClick(index)}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
@@ -149,9 +175,12 @@ const TicketTable = () => {
         {/* Pagination Controls */}
         <div className="flex justify-between items-center mt-6">
           <span className="text-sm text-gray-500 font-medium">
-            Showing <span className="text-gray-700 font-semibold">{indexOfFirstEntry + 1}</span>–<span className="text-gray-700 font-semibold">{Math.min(indexOfLastEntry, rowData.length)}</span> of <span className="text-gray-700 font-semibold">{rowData.length}</span> entries
+            Showing{" "}
+            <span className="text-gray-700 font-semibold">{indexOfFirstEntry + 1}</span>–{" "}
+            <span className="text-gray-700 font-semibold">{Math.min(indexOfLastEntry, rowData.length)}</span> of{" "}
+            <span className="text-gray-700 font-semibold">{rowData.length}</span> entries
           </span>
-          
+
           <div className="flex items-center space-x-2">
             <button
               onClick={handlePrev}
@@ -164,8 +193,8 @@ const TicketTable = () => {
             >
               <FontAwesomeIcon icon={faChevronLeft} className="w-3 h-3" />
             </button>
-            
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
@@ -178,7 +207,7 @@ const TicketTable = () => {
                 {page}
               </button>
             ))}
-            
+
             <button
               onClick={handleNext}
               disabled={currentPage === totalPages}
@@ -193,6 +222,13 @@ const TicketTable = () => {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 };

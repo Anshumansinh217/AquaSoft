@@ -1,4 +1,21 @@
-const TicketSummary = ({ ticketType, totalAmount, finalAmount }) => {
+const TicketSummary = ({ totalAmount = 0, finalAmount = 0 }) => {
+  const formData = JSON.parse(localStorage.getItem("ticketFormData")) || {};
+  const selectedTickets = formData.selectedTickets || [];
+
+  // Generate ticket names from selected tickets
+  const ticketTypeDisplay = selectedTickets
+    .flatMap((ticket) => {
+      const labels = [];
+      if (ticket.quantities?.adults > 0) {
+        labels.push(`${ticket.name} (Adult)`);
+      }
+      if (ticket.quantities?.children > 0) {
+        labels.push(`${ticket.name} (Child)`);
+      }
+      return labels;
+    })
+    .join(", ");
+
   const isDiscounted = finalAmount < totalAmount;
 
   return (
@@ -9,14 +26,11 @@ const TicketSummary = ({ ticketType, totalAmount, finalAmount }) => {
 
       {/* Ticket Type */}
       <div className="space-y-1">
-        <label htmlFor="ticketType" className="block text-sm font-medium text-purple-800">
-          Ticket Type
-        </label>
+        <label className="block text-sm font-medium text-purple-800">Ticket Type</label>
         <div className="relative">
           <input
-            id="ticketType"
             type="text"
-            value={Array.isArray(ticketType) ? ticketType.join(", ") : ticketType}
+            value={ticketTypeDisplay || "No tickets selected"}
             disabled
             className="w-full px-4 py-3 bg-white/80 border border-purple-200 rounded-xl text-purple-900 font-medium focus:outline-none focus:ring-2 focus:ring-purple-300/50 focus:border-purple-300 transition-all duration-300 shadow-sm"
           />
@@ -25,12 +39,9 @@ const TicketSummary = ({ ticketType, totalAmount, finalAmount }) => {
 
       {/* Total Amount */}
       <div className="space-y-1">
-        <label htmlFor="totalAmount" className="block text-sm font-medium text-purple-800">
-          Total Amount
-        </label>
+        <label className="block text-sm font-medium text-purple-800">Total Amount</label>
         <div className="relative">
           <input
-            id="totalAmount"
             type="text"
             value={`₹${totalAmount.toFixed(2)}`}
             disabled
@@ -42,12 +53,9 @@ const TicketSummary = ({ ticketType, totalAmount, finalAmount }) => {
       {/* Final Amount (if discounted) */}
       {isDiscounted && (
         <div className="space-y-1">
-          <label htmlFor="finalAmount" className="block text-sm font-medium text-purple-800">
-            After Discount
-          </label>
+          <label className="block text-sm font-medium text-purple-800">After Discount</label>
           <div className="relative">
             <input
-              id="finalAmount"
               type="text"
               value={`₹${finalAmount.toFixed(2)}`}
               disabled

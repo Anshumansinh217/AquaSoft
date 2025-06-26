@@ -1,28 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TicketTypeCard from "../../components/TicketTypeCard";
+import BookingSummary from "../../components/BookingSummary";
 import { FaArrowLeft } from "react-icons/fa";
-
-const ticketTypes = [
-  { id: 1, name: "Platinum", price: { adult: 500, child: 400 } },
-  { id: 2, name: "Diwali", price: { adult: 400, child: 300 } },
-  { id: 3, name: "Express", price: { adult: 350, child: 250 } },
-  { id: 4, name: "Park Visit", price: { adult: 300, child: 200 } },
-  { id: 5, name: "Tuesday & Thursday", price: { adult: 250, child: 150 } },
-  { id: 6, name: "Golden with Lunch", price: { adult: 600, child: 450 } },
-];
 
 const TicketForm = () => {
   const navigate = useNavigate();
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [ticketQuantities, setTicketQuantities] = useState({});
+  const [ticketTypes, setTicketTypes] = useState([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("ticketTypes");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setTicketTypes(parsed);
+    }
+  }, []);
 
   const handleQuantityChange = (ticketId, type, value) => {
     setTicketQuantities((prev) => ({
       ...prev,
       [ticketId]: {
         ...prev[ticketId],
-        [type]: Math.max(0, value), // Ensure not negative
+        [type]: Math.max(0, value),
       },
     }));
   };
@@ -31,40 +32,31 @@ const TicketForm = () => {
     selectedTypes.includes(t.id)
   );
 
-  // Calculate totals
-  const { basePrice, totalCount, ticketDetails } = selectedTickets.reduce(
-    (acc, ticket) => {
-
-      // Add these lines at the start of the reducer function
-
-      const quantities = ticketQuantities[ticket.id] || {
-        adults: 0,
-        children: 0,
-      };
-      const adults = quantities.adults || 0;
-      const children = quantities.children || 0;
-
-      const ticketTotal =
-        ticket.price.adult * adults + ticket.price.child * children;
-
-      acc.ticketDetails.push({
-        ...ticket,
-        quantities,
-        ticketTotal,
-      });
-
-      acc.basePrice += ticketTotal;
-      acc.totalCount += adults + children;
-      return acc;
-    },
-    { basePrice: 0, totalCount: 0, ticketDetails: [] }
-  );
-  const gst = basePrice * 0.18;
-  const totalAmount = basePrice + gst;
+  const ticketCounts = selectedTickets.reduce((acc, ticket) => {
+    const quantities = ticketQuantities[ticket.id] || {
+      adults: 0,
+      children: 0,
+    };
+    acc[ticket.name] = quantities;
+    return acc;
+  }, {});
 
   const handleNext = () => {
+    const selectedDetails = selectedTickets.map((ticket) => ({
+      ...ticket,
+      quantities: ticketQuantities[ticket.id] || { adults: 0, children: 0 },
+    }));
+
+    const basePrice = selectedDetails.reduce((acc, t) => {
+      const { adults, children } = t.quantities;
+      return acc + t.price.adult * adults + t.price.child * children;
+    }, 0);
+
+    const gst = basePrice * 0.18;
+    const totalAmount = basePrice + gst;
+
     const formData = {
-      selectedTickets: ticketDetails,
+      selectedTickets: selectedDetails,
       basePrice,
       gst,
       totalAmount,
@@ -72,6 +64,11 @@ const TicketForm = () => {
     localStorage.setItem("ticketFormData", JSON.stringify(formData));
     navigate("/ticket-payment");
   };
+
+  const totalCount = Object.values(ticketCounts).reduce(
+    (sum, { adults, children }) => sum + adults + children,
+    0
+  );
 
   return (
     <div className="mx-auto p-6 md:p-8 space-y-8 bg-gradient-to-br from-gray-50 to-purple-50 min-h-screen">
@@ -93,7 +90,7 @@ const TicketForm = () => {
                 Ticket Types
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5">
-                {ticketTypes.map((type) => (
+                {ticketTypes.map((type, index) => (
                   <div
                     key={type.id}
                     className="bg-white p-5 rounded-xl border border-purple-100 shadow-sm hover:shadow-md transition-shadow duration-300"
@@ -102,75 +99,50 @@ const TicketForm = () => {
                       type={type}
                       selectedTypes={selectedTypes}
                       setSelectedTypes={setSelectedTypes}
+                      colorIndex={index}
                     />
 
                     {selectedTypes.includes(type.id) && (
                       <div className="mt-4 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">Adults:</span>
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() =>
-                                handleQuantityChange(
-                                  type.id,
-                                  "adults",
-                                  (ticketQuantities[type.id]?.adults || 0) - 1
-                                )
-                              }
-                              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
-                            >
-                              -
-                            </button>
-                            <span>
-                              {ticketQuantities[type.id]?.adults || 0}
+                        {["adults", "children"].map((group) => (
+                          <div
+                            key={group}
+                            className="flex items-center justify-between"
+                          >
+                            <span className="text-sm font-medium">
+                              {group === "adults" ? "Adults:" : "Children:"}
                             </span>
-                            <button
-                              onClick={() =>
-                                handleQuantityChange(
-                                  type.id,
-                                  "adults",
-                                  (ticketQuantities[type.id]?.adults || 0) + 1
-                                )
-                              }
-                              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
-                            >
-                              +
-                            </button>
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() =>
+                                  handleQuantityChange(
+                                    type.id,
+                                    group,
+                                    (ticketQuantities[type.id]?.[group] || 0) - 1
+                                  )
+                                }
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                              >
+                                -
+                              </button>
+                              <span>
+                                {ticketQuantities[type.id]?.[group] || 0}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  handleQuantityChange(
+                                    type.id,
+                                    group,
+                                    (ticketQuantities[type.id]?.[group] || 0) + 1
+                                  )
+                                }
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                              >
+                                +
+                              </button>
+                            </div>
                           </div>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">Children:</span>
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() =>
-                                handleQuantityChange(
-                                  type.id,
-                                  "children",
-                                  (ticketQuantities[type.id]?.children || 0) - 1
-                                )
-                              }
-                              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
-                            >
-                              -
-                            </button>
-                            <span>
-                              {ticketQuantities[type.id]?.children || 0}
-                            </span>
-                            <button
-                              onClick={() =>
-                                handleQuantityChange(
-                                  type.id,
-                                  "children",
-                                  (ticketQuantities[type.id]?.children || 0) + 1
-                                )
-                              }
-                              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -179,99 +151,39 @@ const TicketForm = () => {
             </div>
           </div>
 
-         <div className="w-full md:w-[450px] flex-shrink-0 space-y-4">
-  <div className="bg-white p-6 rounded-xl border border-purple-100 shadow-sm">
-    <h2 className="text-xl font-semibold text-purple-800 border-b border-purple-200 pb-2 mb-4">
-      Booking Summary
-    </h2>
+          {/* Booking Summary */}
+          <div className="w-full md:w-[450px] flex-shrink-0 space-y-4">
+            <div className="bg-white p-6 rounded-xl border border-purple-100 shadow-sm">
+              <h2 className="text-xl font-semibold text-purple-800 border-b border-purple-200 pb-2 mb-4">
+                Booking Summary
+              </h2>
 
-    <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-      <div className="font-medium">Name: Guest User</div>
-      <div className="text-sm text-gray-600">
-        ID: 12345 &nbsp; | &nbsp; Balance: ₹0.00
-      </div>
-    </div>
-
-    <div className="mb-4">
-      {/* Table header */}
-      <div className="grid grid-cols-12 gap-2 font-medium text-gray-600 text-sm border-b pb-2 mb-2">
-        <div className="col-span-5">Ticket</div>
-        <div className="col-span-2 text-left">Nos.</div>
-        <div className="col-span-2 text-right">Rate</div>
-        <div className="col-span-3 text-right">Total</div>
-      </div>
-
-      {/* Ticket list */}
-      {ticketDetails.length > 0 ? (
-        ticketDetails.map((ticket) => {
-          const adults = ticket.quantities.adults || 0;
-          const children = ticket.quantities.children || 0;
-
-          return (
-            <div key={ticket.id}>
-              {adults > 0 && (
-                <div className="grid grid-cols-12 gap-2 py-2 border-b text-sm">
-                  <div className="col-span-5 font-medium">{ticket.name} (Adult)</div>
-                  <div className="col-span-2 text-left">{adults}</div>
-                  <div className="col-span-2 text-right">₹{ticket.price.adult}</div>
-                  <div className="col-span-3 text-right font-medium">
-                    ₹{(ticket.price.adult * adults).toFixed(2)}
-                  </div>
+              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                <div className="font-medium">Name: Guest User</div>
+                <div className="text-sm text-gray-600">
+                  ID: 12345 &nbsp; | &nbsp; Balance: ₹0.00
                 </div>
-              )}
+              </div>
 
-              {children > 0 && (
-                <div className="grid grid-cols-12 gap-2 py-2 border-b text-sm">
-                  <div className="col-span-5 font-medium text-gray-700">{ticket.name} (Child)</div>
-                  <div className="col-span-2 text-left">{children}</div>
-                  <div className="col-span-2 text-right">₹{ticket.price.child}</div>
-                  <div className="col-span-3 text-right font-medium">
-                    ₹{(ticket.price.child * children).toFixed(2)}
-                  </div>
-                </div>
-              )}
+              <BookingSummary
+                ticketCounts={ticketCounts}
+                ticketTypes={ticketTypes}
+              />
             </div>
-          );
-        })
-      ) : (
-        <div className="text-center py-4 text-gray-500">No tickets selected</div>
-      )}
-    </div>
 
-    {/* Total summary */}
-    <div className="space-y-3 pt-2 text-sm">
-      <div className="flex justify-between font-medium">
-        <span>Total</span>
-        <span>Nos:{totalCount}</span>
-        <span className="text-right w-24">₹{basePrice.toFixed(2)}</span>
-      </div>
-
-      <div className="flex justify-between text-gray-600">
-        <span>GST (18%)</span>
-        <span>₹{gst.toFixed(2)}</span>
-      </div>
-
-      <div className="flex justify-between font-bold text-lg border-t pt-3 mt-2">
-        <span>Total:</span>
-        <span>₹{totalAmount.toFixed(2)}</span>
-      </div>
-    </div>
-  </div>
-
-  {/* Button */}
-  <button
-    disabled={selectedTickets.length === 0 || totalCount === 0}
-    onClick={handleNext}
-    className={`w-full py-3 rounded-xl font-medium text-white shadow-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-95
-      ${
-        selectedTickets.length === 0 || totalCount === 0
-          ? "bg-gray-400 cursor-not-allowed"
-          : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-      }`}
-  >
-    Proceed to Checkout →
-  </button>
-</div>
+            <button
+              disabled={selectedTypes.length === 0 || totalCount === 0}
+              onClick={handleNext}
+              className={`w-full py-3 rounded-xl font-medium text-white shadow-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-95
+                ${
+                  selectedTypes.length === 0 || totalCount === 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                }`}
+            >
+              Proceed to Checkout →
+            </button>
+          </div>
         </div>
       </div>
     </div>

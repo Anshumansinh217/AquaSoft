@@ -1,21 +1,30 @@
 const DiscountSection = ({ discountByAmount, discountByPercent, onAmountChange, onPercentChange }) => {
-  // Function to prevent minus key
   const preventMinus = (e) => {
-    if (e.key === '-') {
+    if (e.key === '-' || e.key === 'e') {
       e.preventDefault();
     }
+  };
+
+  const handleAmountChange = (e) => {
+    const value = Math.max(0, Number(e.target.value));
+    onAmountChange({ target: { value } });
+  };
+
+  const handlePercentChange = (e) => {
+    let value = Number(e.target.value);
+    if (value < 0) value = 0;
+    if (value > 100) value = 100;
+    onPercentChange({ target: { value } });
   };
 
   return (
     <>
       <style>{`
-        /* Hide number input arrows */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
           -webkit-appearance: none;
           margin: 0;
         }
-
         input[type="number"] {
           -moz-appearance: textfield;
         }
@@ -23,9 +32,9 @@ const DiscountSection = ({ discountByAmount, discountByPercent, onAmountChange, 
 
       <div className="space-y-5 p-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border-2 border-purple-100 shadow-lg relative overflow-hidden">
         <h3 className="text-xl font-bold text-purple-900 mb-2">Apply Discount</h3>
-        
+
         <div className="space-y-4">
-          {/* Amount Discount */}
+          {/* Flat Amount Discount */}
           <div className="group">
             <label className="block text-sm font-medium text-purple-800 mb-1">Flat Discount (₹)</label>
             <div className="relative">
@@ -35,12 +44,12 @@ const DiscountSection = ({ discountByAmount, discountByPercent, onAmountChange, 
               <input
                 type="number"
                 value={discountByAmount}
-                onChange={onAmountChange}
+                onChange={handleAmountChange}
                 onKeyDown={preventMinus}
-                className="w-full pl-8 pr-4 py-3 bg-white/80 border border-purple-200 rounded-xl text-purple-900 font-medium focus:outline-none focus:ring-2 focus:ring-purple-300/50 focus:border-purple-300 transition-all duration-300 shadow-sm"
-                placeholder="0.00"
                 onWheel={(e) => e.target.blur()}
                 min="0"
+                placeholder="0.00"
+                className="w-full pl-8 pr-4 py-3 bg-white/80 border border-purple-200 rounded-xl text-purple-900 font-medium focus:outline-none focus:ring-2 focus:ring-purple-300/50 focus:border-purple-300 transition-all duration-300 shadow-sm"
               />
               <div className="absolute inset-0 rounded-xl pointer-events-none border-2 border-transparent group-hover:border-purple-300/30 transition-all duration-300"></div>
             </div>
@@ -56,22 +65,20 @@ const DiscountSection = ({ discountByAmount, discountByPercent, onAmountChange, 
               <input
                 type="number"
                 value={discountByPercent}
-                onChange={onPercentChange}
+                onChange={handlePercentChange}
                 onKeyDown={preventMinus}
-                className="w-full pl-8 pr-4 py-3 bg-white/80 border border-purple-200 rounded-xl text-purple-900 font-medium focus:outline-none focus:ring-2 focus:ring-purple-300/50 focus:border-purple-300 transition-all duration-300 shadow-sm"
-                placeholder="0"
-                max="100"
-                min="0"
                 onWheel={(e) => e.target.blur()}
+                min="0"
+                max="100"
+                placeholder="0"
+                className="w-full pl-8 pr-4 py-3 bg-white/80 border border-purple-200 rounded-xl text-purple-900 font-medium focus:outline-none focus:ring-2 focus:ring-purple-300/50 focus:border-purple-300 transition-all duration-300 shadow-sm"
               />
               <div className="absolute inset-0 rounded-xl pointer-events-none border-2 border-transparent group-hover:border-purple-300/30 transition-all duration-300"></div>
             </div>
           </div>
         </div>
 
-        {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-2xl bg-gradient-to-br from-purple-400/10 to-blue-400/10"></div>
-        {/* <div className="absolute bottom-0 left-0 w-16 h-16 rounded-tr-2xl bg-gradient-to-br from-purple-400/10 to-blue-400/10"></div> */}
       </div>
     </>
   );

@@ -14,7 +14,10 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
     onUpdate(item.id, "quantity", item.quantity + 1);
   };
 
-  const totalPrice = item.price * item.quantity;
+ 
+
+  const price = Number(item.price) || 0;
+ const totalPrice = price * item.quantity;;
   
 
   return (
@@ -47,11 +50,8 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
           <Minus size={16} />
         </button>
 
-        {/* RATE */}
-        <div className="text-right">₹{item.price.toFixed(2)}</div>
-
-        {/* TOTAL */}
-        <div className="text-right">₹{totalPrice.toFixed(2)}</div>
+<div className="text-right">₹{price.toFixed(2)}</div>
+<div className="text-right">₹{totalPrice.toFixed(2)}</div>
 
         {/* REMOVE */}
         <button
