@@ -20,7 +20,17 @@ const AdminDashboard = () => {
     <div className="p-6 max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">🛠️ Admin Panel</h1>
+      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 shadow-md rounded-xl p-4 mb-4 border border-indigo-300">
+        <div className="flex items-center space-x-3">
+          <div className="bg-white/20 p-2 rounded-full">
+            <span className="text-white text-xl">🛠️</span>
+          </div>
+          <h1 className="text-white text-xl font-semibold tracking-wide drop-shadow-sm">
+            Admin Panel
+          </h1>
+        </div>
+      </div>
+
         <button
           onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"

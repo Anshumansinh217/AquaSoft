@@ -4,27 +4,29 @@ import {
   faTicket,
   faUtensils,
   faShoppingBag,
-
+  faPenToSquare,
   faUserShield,
   faRightFromBracket,
   faInbox,
+  faTableList,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-white via-sky-50 to-sky-100 backdrop-blur-lg shadow-md border-b border-gray-200">
-      <div className="max-w-8xl mx-auto px-8">
+      <div className="max-w-8xl mx-auto px-6">
         <nav className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-900 shadow-md flex items-center justify-center">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-900 shadow-md flex items-center justify-center">
               <img
                 src="../img/aquasoft__1_-removebg-preview-removebg-preview.png"
                 alt="AquaSoft Logo"
                 className="w-7 h-7 object-contain"
               />
             </div>
-            <h1 className="text-xl font-bold tracking-tight text-gray-800">
+            <h1 className="text-lg font-bold tracking-tight text-gray-800">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-700">
                 Aqua
               </span>
@@ -32,27 +34,60 @@ const Header = () => {
             </h1>
           </Link>
 
-          {/* Nav Items */}
-          <ul className="flex space-x-6 items-center">
+          {/* Navigation */}
+          <ul className="flex space-x-5 items-center text-sm font-medium text-gray-700">
             {/* Issuance Dropdown */}
             <li className="relative group">
-              <div className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-700 cursor-pointer">
-                <FontAwesomeIcon icon={faTicket} className="text-blue-500 text-lg" />
+              <div className="flex items-center space-x-2 px-4 py-2 cursor-pointer hover:bg-gray-100 rounded transition">
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  className="text-blue-500 text-lg"
+                />
                 <span>Issuance</span>
               </div>
-              <ul className="absolute z-50 left-0 mt-1 w-44 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+              <ul className="absolute z-50 left-0 mt-1 w-52 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <li>
                   <Link
                     to="/band-issuance"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100 transition"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
                   >
                     Band Issuance
                   </Link>
                 </li>
+
+                {/* Nested Dropdown: Recharge & Replace */}
+                <li className="relative group/item">
+                  <div className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100 transition">
+                    <span>Recharge & Replace</span>
+                    <FontAwesomeIcon
+                      icon={faChevronRight}
+                      className="ml-2 text-xs"
+                    />
+                  </div>
+                  <ul className="absolute top-0 left-full ml-1 w-56 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible transition-all duration-200">
+                    <li>
+                      <Link
+                        to="/RechargeList"
+                        className="block px-4 py-2 hover:bg-gray-100 transition"
+                      >
+                        Band Balance Recharge
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/BandReplaceList"
+                        className="block px-4 py-2 hover:bg-gray-100 transition"
+                      >
+                        Band Replace
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+
                 <li>
                   <Link
                     to="/locker-issuance"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100 transition"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
                   >
                     Locker Issuance
                   </Link>
@@ -60,7 +95,7 @@ const Header = () => {
                 <li>
                   <Link
                     to="/CostumeBookingTable"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100 transition"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
                   >
                     Costume Issuance
                   </Link>
@@ -68,7 +103,51 @@ const Header = () => {
               </ul>
             </li>
 
+            {/* Ticket */}
+            <NavItem
+              to="/ticket-issue"
+              icon={faTicket}
+              label="Ticket"
+              color="from-yellow-400 to-orange-500"
+            />
 
+            {/* Summary */}
+
+            <li className="relative group">
+              <div className="flex items-center space-x-2 px-4 py-2 cursor-pointer hover:bg-gray-100 rounded transition">
+                <FontAwesomeIcon
+                  icon={faTableList}
+                  className="text-blue-500 text-lg"
+                />
+                <span>Summary</span>
+              </div>
+              <ul className="absolute z-50 left-0 mt-1 w-52 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <li>
+                  <Link
+                    to="/BandLockerSummary"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    BandLockerSummary
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/BandRechargeSummary"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    BandRechargeSummary
+                  </Link>
+                </li>
+                                <li>
+                  <Link
+                    to="/BandExpenseSummary"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    BandExpenseSummary
+                  </Link>
+                </li>
+              </ul>
+            </li>
 
             {/* Restaurant */}
             <NavItem
@@ -85,17 +164,21 @@ const Header = () => {
               label="Article Sales"
               color="from-green-400 to-blue-400"
             />
-                        {/* Return Dropdown */}
+
+            {/* Return Dropdown */}
             <li className="relative group">
-              <div className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-700 cursor-pointer">
-                <FontAwesomeIcon icon={faInbox} className="text-blue-500 text-lg" />
+              <div className="flex items-center space-x-2 px-4 py-2 cursor-pointer hover:bg-gray-100 rounded transition">
+                <FontAwesomeIcon
+                  icon={faInbox}
+                  className="text-blue-500 text-lg"
+                />
                 <span>Return</span>
               </div>
               <ul className="absolute z-50 left-0 mt-1 w-44 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <li>
                   <Link
                     to="/LockerReturn"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100 transition"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
                   >
                     Locker Return
                   </Link>
@@ -104,15 +187,12 @@ const Header = () => {
             </li>
 
             {/* Admin Panel */}
-            <li>
-              <Link
-                to="/admin"
-                className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-700"
-              >
-                <FontAwesomeIcon icon={faUserShield} className="text-gray-500 text-lg" />
-                <span>Admin Panel</span>
-              </Link>
-            </li>
+            <NavItem
+              to="/admin"
+              icon={faUserShield}
+              label="Admin Panel"
+              color="from-gray-400 to-gray-600"
+            />
 
             {/* Logout */}
             <li>
@@ -139,7 +219,7 @@ const NavItem = ({ to, icon, label, color }) => (
   <li>
     <Link
       to={to}
-      className={`relative px-4 py-2 flex items-center space-x-2 text-sm font-medium text-gray-700 hover:text-indigo-700 transition-all duration-200 group`}
+      className={`relative px-4 py-2 flex items-center space-x-2 hover:bg-gray-100 rounded transition group`}
     >
       <FontAwesomeIcon
         icon={icon}

@@ -27,6 +27,10 @@ import CostumeBookingTable from "./pages/Costume/CostumeBookingTable";
 
 import BandIssuanceListPage from "./pages/BandIssuance/BandIssuanceListPage";
 import BandIssuanceFormPage from "./pages/BandIssuance/BandIssuanceFormPage";
+import RechargeList from "./pages/BandIssuance/RechargeList";
+import RechargeForm from "./pages/BandIssuance/RechargeForm";
+import BandReplaceForm from "./pages/BandIssuance/BandReplaceForm";
+import BandReplaceList from "./pages/BandIssuance/BandReplaceList";
 
 import LockerListPage from "./pages/locker/LockerListPage";
 import LockerIssuancePage from "./pages/locker/LockerIssuancePage";
@@ -34,6 +38,12 @@ import LockerReturn from "./components/locker/LockerReturn";
 
 
 import LockerReceipt from './pages/locker/LockerReceipt';
+
+
+
+import BandLockerSummary from "./pages/summary/BandLockerSummary";
+import BandRechargeSummary from "./pages/summary/BandRechargeSummary";
+import BandExpenseSummary from "./pages/summary/BandExpenseSummary";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -81,11 +91,9 @@ function AppContent() {
 
           <Route path="/login" element={<LoginPage />} />
 
-           <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
 
-          
-            <Route path="/admin/*" element={<AdminRoutes />} />
-          
+          <Route path="/admin/*" element={<AdminRoutes />} />
 
           <Route
             path="/ticket-issue"
@@ -200,7 +208,72 @@ function AppContent() {
             }
           />
 
-          
+
+<Route
+  path="/RechargeList"
+  element={
+    <PrivateRoute>
+      <RechargeList />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/RechargeForm"
+  element={
+    <PrivateRoute>
+      <RechargeForm />
+    </PrivateRoute>
+  }
+/>
+
+
+<Route
+  path="/BandReplaceList"
+  element={
+    <PrivateRoute>
+      <BandReplaceList />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/BandReplaceForm"
+  element={
+    <PrivateRoute>
+      <BandReplaceForm />
+    </PrivateRoute>
+  }
+/>
+
+{/* summary */}
+<Route
+  path="/BandLockerSummary"
+  element={
+    <PrivateRoute>
+      <BandLockerSummary />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/BandRechargeSummary"
+  element={
+    <PrivateRoute>
+      <BandRechargeSummary />
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/BandExpenseSummary"
+  element={
+    <PrivateRoute>
+      <BandExpenseSummary />
+    </PrivateRoute>
+  }
+/>
+
+
           <Route
             path="/locker-issuance"
             element={
@@ -219,7 +292,7 @@ function AppContent() {
             }
           />
 
-                    <Route
+          <Route
             path="/LockerReturn"
             element={
               <PrivateRoute>

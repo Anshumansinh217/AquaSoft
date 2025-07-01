@@ -8,7 +8,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (username, password, firmname) => {
+  const login = (username, password) => {
     // Simple check – replace with real auth logic
     if (username === "admin" && password === "1234" ) {
       setIsAuthenticated(true);
