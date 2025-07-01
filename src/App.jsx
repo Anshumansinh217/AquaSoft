@@ -40,10 +40,16 @@ import LockerReturn from "./components/locker/LockerReturn";
 import LockerReceipt from './pages/locker/LockerReceipt';
 
 
-
+// Summary
 import BandLockerSummary from "./pages/summary/BandLockerSummary";
 import BandRechargeSummary from "./pages/summary/BandRechargeSummary";
 import BandExpenseSummary from "./pages/summary/BandExpenseSummary";
+import MissingBandSummary from "./pages/summary/MissingBandSummary";
+import LockerRentSummary from "./pages/summary/LockerRentSummary";
+
+// reports
+import BandCounterReport from "./pages/reports/BandCounterReport";
+
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -269,6 +275,36 @@ function AppContent() {
   element={
     <PrivateRoute>
       <BandExpenseSummary />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/MissingBandSummary"
+  element={
+    <PrivateRoute>
+      <MissingBandSummary />
+    </PrivateRoute>
+  }
+/>
+
+{/* reports */}
+
+<Route
+  path="/LockerRentSummary"
+  element={
+    <PrivateRoute>
+      <LockerRentSummary />
+    </PrivateRoute>
+  }
+/>
+
+
+<Route
+  path="/BandCounterReport"
+  element={
+    <PrivateRoute>
+      <BandCounterReport />
     </PrivateRoute>
   }
 />

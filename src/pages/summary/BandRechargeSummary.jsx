@@ -123,7 +123,7 @@ function BandRechargeSummary() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
-            <div className="mb-6 relative flex items-center justify-center">
+            <div className="mb-6 relative flex  gap-3 items-center justify-center">
   {/* Back Button - Left side */}
   <button
     onClick={() => navigate("/")}

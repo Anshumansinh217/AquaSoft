@@ -9,6 +9,7 @@ import {
   faRightFromBracket,
   faInbox,
   faTableList,
+  faChartBar,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -138,7 +139,7 @@ const Header = () => {
                     BandRechargeSummary
                   </Link>
                 </li>
-                                <li>
+                <li>
                   <Link
                     to="/BandExpenseSummary"
                     className="block px-4 py-2 hover:bg-gray-100 transition"
@@ -146,6 +147,49 @@ const Header = () => {
                     BandExpenseSummary
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/MissingBandSummary"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    MissingBandSummary
+                  </Link>
+                </li> 
+
+                <li>
+                  <Link
+                    to="/LockerRentSummary"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    LockerRentSummary
+                  </Link>
+                </li> 
+
+              </ul>
+            </li>
+
+
+                        {/* Reports */}
+
+            <li className="relative group">
+              <div className="flex items-center space-x-2 px-4 py-2 cursor-pointer hover:bg-gray-100 rounded transition">
+                <FontAwesomeIcon
+                  icon={faChartBar}
+                  className="text-blue-500 text-lg"
+                />
+                <span>Reports</span>
+              </div>
+              <ul className="absolute z-50 left-0 mt-1 w-52 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <li>
+                  <Link
+                    to="/BandCounterReport"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    BandCounterReport
+                  </Link>
+                </li>
+
+
               </ul>
             </li>
 

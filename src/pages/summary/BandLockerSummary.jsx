@@ -168,7 +168,7 @@ function BandLockerSummary() {
   return (
     <div className="p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
       {/* Header */}
-            <div className="mb-6 relative flex items-center justify-center">
+            <div className="mb-6 relative gap-3 flex items-center justify-center">
   {/* Back Button - Left side */}
   <button
     onClick={() => navigate("/")}
